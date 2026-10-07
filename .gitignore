@@ -1,0 +1,43 @@
+# 배포 압축파일
+*.zip
+*.7z
+*.rar
+
+# Android APK
+*.apk
+*.aab
+
+# 실행 중 생성되는 데이터
+runtime/
+**/runtime/
+
+# 빌드/배포 산출물
+dist/
+**/dist/
+
+# 로그
+*.log
+
+# 인증서/키
+*.pem
+*.der
+*.crt
+*.key
+*.p12
+*.pfx
+
+# 설치 프로그램
+*.exe
+*.msi
+
+# Python
+__pycache__/
+*.pyc
+
+# IDE
+.vscode/
+.idea/
+
+# 임시파일
+tmp/
+temp/
