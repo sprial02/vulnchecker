@@ -1,0 +1,84 @@
+﻿{
+    "web-relay-process":  {
+                              "start":  "2026-10-08T08:51:53.0049322+09:00",
+                              "pid":  6576
+                          },
+    "burp-relay-process":  {
+                               "protocol":  "reverse-v2",
+                               "pid":  22744,
+                               "start":  "2026-10-08T08:51:53.0792439+09:00"
+                           },
+    "terminal-OpenCode-System":  {
+                                     "scope":  "System",
+                                     "pid":  12356,
+                                     "work":  "/home/jhs/work/vulnchecker/system",
+                                     "start":  "2026-10-08T19:28:53.7306145+09:00"
+                                 },
+    "connections":  {
+                        "OpenCode AI 설정":  {
+                                               "Detail":  "기본 모델: ibm-ica/claude-sonnet-5. 실제 API 응답은 첫 요청에서 확인합니다. 토큰 소진 시 /models에서 DeepSeek 선택.",
+                                               "Status":  "설정됨",
+                                               "Name":  "OpenCode AI 설정",
+                                               "Updated":  "2026-10-08T19:31:56.9223715+09:00",
+                                               "Order":  5
+                                           },
+                        "시스템 펜테스트 대상":  {
+                                            "Detail":  "독립 작업 폴더 /home/jhs/work/vulnchecker/system / IP·URL: . 점검 범위는 OpenCode에서 지정하세요.",
+                                            "Status":  "준비됨",
+                                            "Name":  "시스템 펜테스트 대상",
+                                            "Updated":  "2026-10-08T19:28:32.9171916+09:00",
+                                            "Order":  4
+                                        },
+                        "OpenCode AI 계정":  {
+                                               "Detail":  "저장한 API 키와 모델 적용 완료. 실제 AI 인증은 첫 요청에서 확인합니다.",
+                                               "Status":  "설정됨",
+                                               "Name":  "OpenCode AI 계정",
+                                               "Updated":  "2026-10-08T19:28:53.5897729+09:00",
+                                               "Order":  6
+                                           },
+                        "OpenCode → HexStrike MCP":  {
+                                                         "Detail":  "응답 확인 완료",
+                                                         "Status":  "연결됨",
+                                                         "Name":  "OpenCode → HexStrike MCP",
+                                                         "Updated":  "2026-10-08T19:28:53.5537686+09:00",
+                                                         "Order":  1
+                                                     },
+                        "HexStrike HTTP":  {
+                                               "Detail":  "기존 서버 재사용 / 127.0.0.1:8888",
+                                               "Status":  "연결됨",
+                                               "Name":  "HexStrike HTTP",
+                                               "Updated":  "2026-10-08T19:28:37.6999342+09:00",
+                                               "Order":  0
+                                           },
+                        "분석 환경 준비":  {
+                                         "Detail":  "시스템(IP/URL) 분석 준비 완료: OpenCode + HexStrike MCP. OpenCode에 대상 IP/URL과 점검 범위를 입력하세요.",
+                                         "Status":  "완료",
+                                         "Name":  "분석 환경 준비",
+                                         "Updated":  "2026-10-08T19:28:53.8322955+09:00",
+                                         "Order":  3
+                                     },
+                        "OpenCode 명령 창":  {
+                                              "Detail":  "System 전용 창 / /home/jhs/work/vulnchecker/system",
+                                              "Status":  "열림",
+                                              "Name":  "OpenCode 명령 창",
+                                              "Updated":  "2026-10-08T19:28:53.7822760+09:00",
+                                              "Order":  2
+                                          },
+                        "실행: SystemAnalysis":  {
+                                                   "Detail":  "개별 연결 결과를 확인하세요.",
+                                                   "Status":  "완료",
+                                                   "Name":  "실행: SystemAnalysis",
+                                                   "Updated":  "2026-10-08T19:28:53.8602932+09:00",
+                                                   "Order":  7
+                                               }
+                    },
+    "hexstrike-process":  {
+                              "start":  "2026-10-08T08:51:58.2527992+09:00",
+                              "pid":  23328
+                          },
+    "burp-process":  {
+                         "path":  "C:\\Users\\spria\\AppData\\Local\\Programs\\BurpSuiteCommunity\\BurpSuite.exe",
+                         "pid":  3872,
+                         "start":  "2026-10-08T08:51:25.1098549+09:00"
+                     }
+}

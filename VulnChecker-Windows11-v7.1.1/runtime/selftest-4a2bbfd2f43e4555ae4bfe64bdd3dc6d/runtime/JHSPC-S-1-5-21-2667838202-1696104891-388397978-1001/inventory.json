@@ -1,0 +1,622 @@
+﻿{
+    "CheckedAt":  "2026-10-08T18:47:51.4941865+09:00",
+    "Items":  [
+                  {
+                      "Id":  "burp",
+                      "Name":  "Burp Community",
+                      "Installed":  true,
+                      "Ready":  true,
+                      "Status":  "설치됨",
+                      "Location":  "existing.exe",
+                      "Detail":  "등록 정보와 실제 실행 파일 확인",
+                      "NeedsInstall":  false,
+                      "EstimatedGB":  1
+                  },
+                  {
+                      "Id":  "docker",
+                      "Name":  "Docker Desktop",
+                      "Installed":  true,
+                      "Ready":  true,
+                      "Status":  "설치됨",
+                      "Location":  "existing.exe",
+                      "Detail":  "등록 정보와 실제 실행 파일 확인",
+                      "NeedsInstall":  false,
+                      "EstimatedGB":  4
+                  },
+                  {
+                      "Id":  "java",
+                      "Name":  "Java (SDK 가상 기기 생성용)",
+                      "Installed":  true,
+                      "Ready":  true,
+                      "Status":  "설치됨",
+                      "Location":  "existing-java",
+                      "Detail":  "Standalone Java 또는 기존 JBR 재사용; Studio 설치 안 함",
+                      "NeedsInstall":  false,
+                      "EstimatedGB":  0.5
+                  },
+                  {
+                      "Id":  "wsl",
+                      "Name":  "WSL",
+                      "Installed":  true,
+                      "Ready":  null,
+                      "Status":  "설치됨",
+                      "Location":  "",
+                      "Detail":  "배포판 등록 정보는 현재 Windows 사용자 기준",
+                      "NeedsInstall":  false,
+                      "EstimatedGB":  1
+                  },
+                  {
+                      "Id":  "kali",
+                      "Name":  "Kali 배포판",
+                      "Installed":  false,
+                      "Ready":  false,
+                      "Status":  "미탐지",
+                      "Location":  "kali-linux",
+                      "Detail":  "현재 계정에 해당 배포판 미등록",
+                      "NeedsInstall":  true,
+                      "EstimatedGB":  6
+                  },
+                  {
+                      "Id":  "opencode",
+                      "Name":  "opencode",
+                      "Installed":  false,
+                      "Ready":  false,
+                      "Status":  "미탐지",
+                      "Location":  "",
+                      "Detail":  "Kali 배포판 설치 후 필요",
+                      "NeedsInstall":  true,
+                      "EstimatedGB":  0.5
+                  },
+                  {
+                      "Id":  "nmap",
+                      "Name":  "nmap",
+                      "Installed":  false,
+                      "Ready":  false,
+                      "Status":  "미탐지",
+                      "Location":  "",
+                      "Detail":  "Kali 배포판 설치 후 필요",
+                      "NeedsInstall":  true,
+                      "EstimatedGB":  0.1
+                  },
+                  {
+                      "Id":  "tcpdump",
+                      "Name":  "tcpdump",
+                      "Installed":  false,
+                      "Ready":  false,
+                      "Status":  "미탐지",
+                      "Location":  "",
+                      "Detail":  "Kali 배포판 설치 후 필요",
+                      "NeedsInstall":  true,
+                      "EstimatedGB":  0.1
+                  },
+                  {
+                      "Id":  "tshark",
+                      "Name":  "tshark",
+                      "Installed":  false,
+                      "Ready":  false,
+                      "Status":  "미탐지",
+                      "Location":  "",
+                      "Detail":  "Kali 배포판 설치 후 필요",
+                      "NeedsInstall":  true,
+                      "EstimatedGB":  0.1
+                  },
+                  {
+                      "Id":  "nc",
+                      "Name":  "nc",
+                      "Installed":  false,
+                      "Ready":  false,
+                      "Status":  "미탐지",
+                      "Location":  "",
+                      "Detail":  "Kali 배포판 설치 후 필요",
+                      "NeedsInstall":  true,
+                      "EstimatedGB":  0.1
+                  },
+                  {
+                      "Id":  "socat",
+                      "Name":  "socat",
+                      "Installed":  false,
+                      "Ready":  false,
+                      "Status":  "미탐지",
+                      "Location":  "",
+                      "Detail":  "Kali 배포판 설치 후 필요",
+                      "NeedsInstall":  true,
+                      "EstimatedGB":  0.1
+                  },
+                  {
+                      "Id":  "dig",
+                      "Name":  "dig",
+                      "Installed":  false,
+                      "Ready":  false,
+                      "Status":  "미탐지",
+                      "Location":  "",
+                      "Detail":  "Kali 배포판 설치 후 필요",
+                      "NeedsInstall":  true,
+                      "EstimatedGB":  0.1
+                  },
+                  {
+                      "Id":  "whois",
+                      "Name":  "whois",
+                      "Installed":  true,
+                      "Ready":  false,
+                      "Status":  "설치됨 / 준비 필요",
+                      "Location":  "C:\\Users\\spria\\AppData\\Local\\Microsoft\\WindowsApps\\whois.exe",
+                      "Detail":  "Windows에 설치됨. Kali 연동에 필요한 Linux 설치 여부는 별도로 확인.",
+                      "NeedsInstall":  true,
+                      "EstimatedGB":  0.1
+                  },
+                  {
+                      "Id":  "curl",
+                      "Name":  "curl",
+                      "Installed":  true,
+                      "Ready":  false,
+                      "Status":  "설치됨 / 준비 필요",
+                      "Location":  "",
+                      "Detail":  "Windows에 설치됨. Kali 연동에 필요한 Linux 설치 여부는 별도로 확인.",
+                      "NeedsInstall":  true,
+                      "EstimatedGB":  0.1
+                  },
+                  {
+                      "Id":  "openssl",
+                      "Name":  "openssl",
+                      "Installed":  true,
+                      "Ready":  false,
+                      "Status":  "설치됨 / 준비 필요",
+                      "Location":  "C:\\Program Files\\OpenSSL-Win64\\bin\\openssl.exe",
+                      "Detail":  "Windows에 설치됨. Kali 연동에 필요한 Linux 설치 여부는 별도로 확인.",
+                      "NeedsInstall":  true,
+                      "EstimatedGB":  0.1
+                  },
+                  {
+                      "Id":  "ffuf",
+                      "Name":  "ffuf",
+                      "Installed":  false,
+                      "Ready":  false,
+                      "Status":  "미탐지",
+                      "Location":  "",
+                      "Detail":  "Kali 배포판 설치 후 필요",
+                      "NeedsInstall":  true,
+                      "EstimatedGB":  0.1
+                  },
+                  {
+                      "Id":  "sqlmap",
+                      "Name":  "sqlmap",
+                      "Installed":  false,
+                      "Ready":  false,
+                      "Status":  "미탐지",
+                      "Location":  "",
+                      "Detail":  "Kali 배포판 설치 후 필요",
+                      "NeedsInstall":  true,
+                      "EstimatedGB":  0.1
+                  },
+                  {
+                      "Id":  "nikto",
+                      "Name":  "nikto",
+                      "Installed":  false,
+                      "Ready":  false,
+                      "Status":  "미탐지",
+                      "Location":  "",
+                      "Detail":  "Kali 배포판 설치 후 필요",
+                      "NeedsInstall":  true,
+                      "EstimatedGB":  0.1
+                  },
+                  {
+                      "Id":  "nuclei",
+                      "Name":  "nuclei",
+                      "Installed":  false,
+                      "Ready":  false,
+                      "Status":  "미탐지",
+                      "Location":  "",
+                      "Detail":  "Kali 배포판 설치 후 필요",
+                      "NeedsInstall":  true,
+                      "EstimatedGB":  0.1
+                  },
+                  {
+                      "Id":  "gobuster",
+                      "Name":  "gobuster",
+                      "Installed":  false,
+                      "Ready":  false,
+                      "Status":  "미탐지",
+                      "Location":  "",
+                      "Detail":  "Kali 배포판 설치 후 필요",
+                      "NeedsInstall":  true,
+                      "EstimatedGB":  0.1
+                  },
+                  {
+                      "Id":  "feroxbuster",
+                      "Name":  "feroxbuster",
+                      "Installed":  false,
+                      "Ready":  false,
+                      "Status":  "미탐지",
+                      "Location":  "",
+                      "Detail":  "Kali 배포판 설치 후 필요",
+                      "NeedsInstall":  true,
+                      "EstimatedGB":  0.1
+                  },
+                  {
+                      "Id":  "whatweb",
+                      "Name":  "whatweb",
+                      "Installed":  false,
+                      "Ready":  false,
+                      "Status":  "미탐지",
+                      "Location":  "",
+                      "Detail":  "Kali 배포판 설치 후 필요",
+                      "NeedsInstall":  true,
+                      "EstimatedGB":  0.1
+                  },
+                  {
+                      "Id":  "wafw00f",
+                      "Name":  "wafw00f",
+                      "Installed":  false,
+                      "Ready":  false,
+                      "Status":  "미탐지",
+                      "Location":  "",
+                      "Detail":  "Kali 배포판 설치 후 필요",
+                      "NeedsInstall":  true,
+                      "EstimatedGB":  0.1
+                  },
+                  {
+                      "Id":  "testssl",
+                      "Name":  "testssl",
+                      "Installed":  false,
+                      "Ready":  false,
+                      "Status":  "미탐지",
+                      "Location":  "",
+                      "Detail":  "Kali 배포판 설치 후 필요",
+                      "NeedsInstall":  true,
+                      "EstimatedGB":  0.1
+                  },
+                  {
+                      "Id":  "sslscan",
+                      "Name":  "sslscan",
+                      "Installed":  false,
+                      "Ready":  false,
+                      "Status":  "미탐지",
+                      "Location":  "",
+                      "Detail":  "Kali 배포판 설치 후 필요",
+                      "NeedsInstall":  true,
+                      "EstimatedGB":  0.1
+                  },
+                  {
+                      "Id":  "dirsearch",
+                      "Name":  "dirsearch",
+                      "Installed":  false,
+                      "Ready":  false,
+                      "Status":  "미탐지",
+                      "Location":  "",
+                      "Detail":  "Kali 배포판 설치 후 필요",
+                      "NeedsInstall":  true,
+                      "EstimatedGB":  0.1
+                  },
+                  {
+                      "Id":  "wfuzz",
+                      "Name":  "wfuzz",
+                      "Installed":  false,
+                      "Ready":  false,
+                      "Status":  "미탐지",
+                      "Location":  "",
+                      "Detail":  "Kali 배포판 설치 후 필요",
+                      "NeedsInstall":  true,
+                      "EstimatedGB":  0.1
+                  },
+                  {
+                      "Id":  "masscan",
+                      "Name":  "masscan",
+                      "Installed":  false,
+                      "Ready":  false,
+                      "Status":  "미탐지",
+                      "Location":  "",
+                      "Detail":  "Kali 배포판 설치 후 필요",
+                      "NeedsInstall":  true,
+                      "EstimatedGB":  0.1
+                  },
+                  {
+                      "Id":  "enum4linux-ng",
+                      "Name":  "enum4linux-ng",
+                      "Installed":  false,
+                      "Ready":  false,
+                      "Status":  "미탐지",
+                      "Location":  "",
+                      "Detail":  "Kali 배포판 설치 후 필요",
+                      "NeedsInstall":  true,
+                      "EstimatedGB":  0.1
+                  },
+                  {
+                      "Id":  "smbclient",
+                      "Name":  "smbclient",
+                      "Installed":  true,
+                      "Ready":  false,
+                      "Status":  "설치됨 / 준비 필요",
+                      "Location":  "C:\\Users\\spria\\AppData\\Local\\Programs\\Python\\Python313\\Scripts\\smbclient.py",
+                      "Detail":  "Windows에 설치됨. Kali 연동에 필요한 Linux 설치 여부는 별도로 확인.",
+                      "NeedsInstall":  true,
+                      "EstimatedGB":  0.1
+                  },
+                  {
+                      "Id":  "smbmap",
+                      "Name":  "smbmap",
+                      "Installed":  false,
+                      "Ready":  false,
+                      "Status":  "미탐지",
+                      "Location":  "",
+                      "Detail":  "Kali 배포판 설치 후 필요",
+                      "NeedsInstall":  true,
+                      "EstimatedGB":  0.1
+                  },
+                  {
+                      "Id":  "impacket-secretsdump",
+                      "Name":  "impacket-secretsdump",
+                      "Installed":  false,
+                      "Ready":  false,
+                      "Status":  "미탐지",
+                      "Location":  "",
+                      "Detail":  "Kali 배포판 설치 후 필요",
+                      "NeedsInstall":  true,
+                      "EstimatedGB":  0.1
+                  },
+                  {
+                      "Id":  "nxc",
+                      "Name":  "nxc",
+                      "Installed":  false,
+                      "Ready":  false,
+                      "Status":  "미탐지",
+                      "Location":  "",
+                      "Detail":  "Kali 배포판 설치 후 필요",
+                      "NeedsInstall":  true,
+                      "EstimatedGB":  0.1
+                  },
+                  {
+                      "Id":  "hydra",
+                      "Name":  "hydra",
+                      "Installed":  false,
+                      "Ready":  false,
+                      "Status":  "미탐지",
+                      "Location":  "",
+                      "Detail":  "Kali 배포판 설치 후 필요",
+                      "NeedsInstall":  true,
+                      "EstimatedGB":  0.1
+                  },
+                  {
+                      "Id":  "john",
+                      "Name":  "john",
+                      "Installed":  false,
+                      "Ready":  false,
+                      "Status":  "미탐지",
+                      "Location":  "",
+                      "Detail":  "Kali 배포판 설치 후 필요",
+                      "NeedsInstall":  true,
+                      "EstimatedGB":  0.1
+                  },
+                  {
+                      "Id":  "hashcat",
+                      "Name":  "hashcat",
+                      "Installed":  false,
+                      "Ready":  false,
+                      "Status":  "미탐지",
+                      "Location":  "",
+                      "Detail":  "Kali 배포판 설치 후 필요",
+                      "NeedsInstall":  true,
+                      "EstimatedGB":  0.1
+                  },
+                  {
+                      "Id":  "msfconsole",
+                      "Name":  "msfconsole",
+                      "Installed":  false,
+                      "Ready":  false,
+                      "Status":  "미탐지",
+                      "Location":  "",
+                      "Detail":  "Kali 배포판 설치 후 필요",
+                      "NeedsInstall":  true,
+                      "EstimatedGB":  1.5
+                  },
+                  {
+                      "Id":  "searchsploit",
+                      "Name":  "searchsploit",
+                      "Installed":  false,
+                      "Ready":  false,
+                      "Status":  "미탐지",
+                      "Location":  "",
+                      "Detail":  "Kali 배포판 설치 후 필요",
+                      "NeedsInstall":  true,
+                      "EstimatedGB":  0.8
+                  },
+                  {
+                      "Id":  "jadx",
+                      "Name":  "jadx",
+                      "Installed":  false,
+                      "Ready":  false,
+                      "Status":  "미탐지",
+                      "Location":  "",
+                      "Detail":  "Kali 배포판 설치 후 필요",
+                      "NeedsInstall":  true,
+                      "EstimatedGB":  0.1
+                  },
+                  {
+                      "Id":  "apktool",
+                      "Name":  "apktool",
+                      "Installed":  false,
+                      "Ready":  false,
+                      "Status":  "미탐지",
+                      "Location":  "",
+                      "Detail":  "Kali 배포판 설치 후 필요",
+                      "NeedsInstall":  true,
+                      "EstimatedGB":  0.1
+                  },
+                  {
+                      "Id":  "adb",
+                      "Name":  "adb",
+                      "Installed":  true,
+                      "Ready":  false,
+                      "Status":  "설치됨 / 준비 필요",
+                      "Location":  "C:\\Windows\\adb.exe",
+                      "Detail":  "Windows에 설치됨. Kali 연동에 필요한 Linux 설치 여부는 별도로 확인.",
+                      "NeedsInstall":  true,
+                      "EstimatedGB":  0.1
+                  },
+                  {
+                      "Id":  "apksigner",
+                      "Name":  "apksigner",
+                      "Installed":  false,
+                      "Ready":  false,
+                      "Status":  "미탐지",
+                      "Location":  "",
+                      "Detail":  "Kali 배포판 설치 후 필요",
+                      "NeedsInstall":  true,
+                      "EstimatedGB":  0.1
+                  },
+                  {
+                      "Id":  "binwalk",
+                      "Name":  "binwalk",
+                      "Installed":  false,
+                      "Ready":  false,
+                      "Status":  "미탐지",
+                      "Location":  "",
+                      "Detail":  "Kali 배포판 설치 후 필요",
+                      "NeedsInstall":  true,
+                      "EstimatedGB":  0.1
+                  },
+                  {
+                      "Id":  "r2",
+                      "Name":  "r2",
+                      "Installed":  false,
+                      "Ready":  false,
+                      "Status":  "미탐지",
+                      "Location":  "",
+                      "Detail":  "Kali 배포판 설치 후 필요",
+                      "NeedsInstall":  true,
+                      "EstimatedGB":  0.1
+                  },
+                  {
+                      "Id":  "gdb",
+                      "Name":  "gdb",
+                      "Installed":  false,
+                      "Ready":  false,
+                      "Status":  "미탐지",
+                      "Location":  "",
+                      "Detail":  "Kali 배포판 설치 후 필요",
+                      "NeedsInstall":  true,
+                      "EstimatedGB":  0.1
+                  },
+                  {
+                      "Id":  "yara",
+                      "Name":  "yara",
+                      "Installed":  false,
+                      "Ready":  false,
+                      "Status":  "미탐지",
+                      "Location":  "",
+                      "Detail":  "Kali 배포판 설치 후 필요",
+                      "NeedsInstall":  true,
+                      "EstimatedGB":  0.1
+                  },
+                  {
+                      "Id":  "strings",
+                      "Name":  "strings",
+                      "Installed":  true,
+                      "Ready":  false,
+                      "Status":  "설치됨 / 준비 필요",
+                      "Location":  "C:\\Users\\spria\\AppData\\Local\\Microsoft\\WindowsApps\\strings.exe",
+                      "Detail":  "Windows에 설치됨. Kali 연동에 필요한 Linux 설치 여부는 별도로 확인.",
+                      "NeedsInstall":  true,
+                      "EstimatedGB":  0.1
+                  },
+                  {
+                      "Id":  "frida",
+                      "Name":  "frida",
+                      "Installed":  true,
+                      "Ready":  false,
+                      "Status":  "설치됨 / 준비 필요",
+                      "Location":  "C:\\Users\\spria\\AppData\\Local\\Programs\\Python\\Python313\\Scripts\\frida.exe",
+                      "Detail":  "Windows에 설치됨. Kali 연동에 필요한 Linux 설치 여부는 별도로 확인.",
+                      "NeedsInstall":  true,
+                      "EstimatedGB":  0.1
+                  },
+                  {
+                      "Id":  "objection",
+                      "Name":  "objection",
+                      "Installed":  false,
+                      "Ready":  false,
+                      "Status":  "미탐지",
+                      "Location":  "",
+                      "Detail":  "Kali 배포판 설치 후 필요",
+                      "NeedsInstall":  true,
+                      "EstimatedGB":  0.1
+                  },
+                  {
+                      "Id":  "hexstrike",
+                      "Name":  "HexStrike",
+                      "Installed":  false,
+                      "Ready":  false,
+                      "Status":  "미탐지",
+                      "Location":  "",
+                      "Detail":  "Kali 내부 탐지 불가",
+                      "NeedsInstall":  true,
+                      "EstimatedGB":  2
+                  },
+                  {
+                      "Id":  "sdk",
+                      "Name":  "Android SDK / Emulator",
+                      "Installed":  false,
+                      "Ready":  false,
+                      "Status":  "미탐지",
+                      "Location":  "",
+                      "Detail":  "환경변수·기본 SDK·전용 SDK·PATH 검사",
+                      "NeedsInstall":  true,
+                      "EstimatedGB":  2
+                  },
+                  {
+                      "Id":  "avd",
+                      "Name":  "Android AVD",
+                      "Installed":  false,
+                      "Ready":  null,
+                      "Status":  "미탐지",
+                      "Location":  "",
+                      "Detail":  "기존 AVD 탐지. 요청 API 30 루트 후보: . 동적 분석은 전용 VulnChecker_API30에서 검증하며 기존 AVD는 변경하지 않음.",
+                      "NeedsInstall":  true,
+                      "EstimatedGB":  6
+                  },
+                  {
+                      "Id":  "play-download",
+                      "Name":  "Google Play 다운로드 기기 (선택 설치)",
+                      "Installed":  true,
+                      "Ready":  false,
+                      "Status":  "설치됨 / 준비 필요",
+                      "Location":  "VulnChecker_Play_API30",
+                      "Detail":  "앱 가져오기 탭에서 필요할 때 설치. 다운로드 시 SDK 드라이브 6GB 여유 공간 검사. 루팅 기기와 분리.",
+                      "NeedsInstall":  false,
+                      "EstimatedGB":  0
+                  },
+                  {
+                      "Id":  "docker-engine",
+                      "Name":  "Docker 엔진",
+                      "Installed":  null,
+                      "Ready":  false,
+                      "Status":  "미확인",
+                      "Location":  "",
+                      "Detail":  "설치 여부와 별개로 엔진 정지/접근 불가. 재설치 판정하지 않음.",
+                      "NeedsInstall":  false,
+                      "EstimatedGB":  0
+                  },
+                  {
+                      "Id":  "mobsf",
+                      "Name":  "MobSF Docker 이미지",
+                      "Installed":  null,
+                      "Ready":  null,
+                      "Status":  "미확인",
+                      "Location":  "",
+                      "Detail":  "Docker 엔진이 정지했거나 접근 불가하면 이미지 설치 여부는 미확인.",
+                      "NeedsInstall":  false,
+                      "EstimatedGB":  5
+                  }
+              ],
+    "Distributions":  [
+
+                      ],
+    "Linux":  null,
+    "Android":  {
+                    "Sdks":  [
+
+                             ],
+                    "Avds":  [
+
+                             ]
+                }
+}

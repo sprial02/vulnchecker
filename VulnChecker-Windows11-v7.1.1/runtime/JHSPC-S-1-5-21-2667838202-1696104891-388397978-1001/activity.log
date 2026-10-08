@@ -1,0 +1,149 @@
+[2026-10-08 08:51:00] 진행 중 실행: WebProxyTest : 서비스 시작 및 연결 확인
+[2026-10-08 08:51:00] 대기 Burp Proxy : 앞 단계 완료 후 자동 진행
+[2026-10-08 08:51:00] 대기 HexStrike HTTP : 앞 단계 완료 후 자동 진행
+[2026-10-08 08:51:00] 대기 OpenCode → HexStrike MCP : 앞 단계 완료 후 자동 진행
+[2026-10-08 08:51:00] 대기 OpenCode 명령 창 : 앞 단계 완료 후 자동 진행
+[2026-10-08 08:51:00] 진행 중 분석 환경 준비 : PenTest
+[2026-10-08 08:51:20] 준비됨 시스템 펜테스트 대상 : 독립 작업 폴더 /home/jhs/work/vulnchecker/system / IP·URL: . 점검 범위는 OpenCode에서 지정하세요.
+[2026-10-08 08:51:20] 진행 중 침투 테스트 준비 : 서비스 시작 및 연결 검사
+[2026-10-08 08:51:22] 선택됨 Burp 실행 버전 : Burp Suite 2026.8 / C:\Users\spria\AppData\Local\Programs\BurpSuiteCommunity\BurpSuite.exe
+[2026-10-08 08:51:25] 사용자 확인 Burp Proxy : Community: Temporary project → Next → Start Burp. --config-file로 설정 선택 단계를 생략합니다. --use-defaults는 저장 설정을 지우므로 사용하지 않습니다.
+[2026-10-08 08:51:25] 진행 중 Burp Proxy : Burp 시작 대기. 초기 화면이 보이면 Temporary project → Next → Start Burp, Intercept Off.
+[2026-10-08 08:51:46] 연결됨 Burp Proxy : 127.0.0.1:8080 실제 Burp HTTP 응답 확인
+[2026-10-08 08:51:46] 연결됨 침투 테스트 준비 : 응답 확인 완료
+[2026-10-08 08:51:52] OpenCode MCP hexstrike 활성화: /home/jhs/work/vulnchecker/opencode.json (기존 설정 변경 전 백업). 사용자=jhs
+[2026-10-08 08:51:55] 연결됨 자동 웹 점검 → Burp : http://127.0.0.1:18880 / Kali에서 Burp 응답 및 CA 확인 / 지원 도구: curl, ffuf, gobuster, httpx, katana, nikto, nuclei, sqlmap, whatweb. 관리 web-tools 경로로 수행합니다.
+[2026-10-08 08:51:55] 사용자 확인 수동 브라우저 → Burp : Burp → Proxy → Intercept → Open browser. 일반 Edge/Chrome은 프록시·HTTPS CA 설정이 필요합니다. Intercept Off에서도 HTTP history에 기록됩니다.
+[2026-10-08 08:51:58] OpenCode MCP hexstrike 활성화: /home/jhs/work/vulnchecker/opencode.json (기존 설정 변경 전 백업). 사용자=jhs
+[2026-10-08 08:52:04] 연결됨 HexStrike HTTP : 127.0.0.1:8888 /health 응답
+[2026-10-08 08:52:05] OpenCode MCP hexstrike 활성화: /home/jhs/work/vulnchecker/opencode.json (기존 설정 변경 전 백업). 사용자=jhs
+[2026-10-08 08:52:05] 진행 중 OpenCode → HexStrike MCP : 서비스 시작 및 연결 검사
+[2026-10-08 08:52:13] MCP 초기화 · 도구 150개 · 로컬 확인 명령 왕복 성공 (대상 검사 실행 없음)
+[2026-10-08 08:52:23] ┌  MCP Servers
+
+│
+●  ✓ hexstrike connected
+│      /home/jhs/tools/hexstrike-ai/venv/bin/python /home/jhs/tools/vulnchecker/hexstrike-mcp-local.py --upstream /home/jhs/tools/hexstrike-ai/hexstrike_mcp.py --server http://127.0.0.1:8888 --timeout 300
+│
+└  1 server(s)
+
+[2026-10-08 08:52:23] 연결됨 OpenCode → HexStrike MCP : 응답 확인 완료
+[2026-10-08 08:52:23] 사용자 확인 OpenCode AI 계정 : OpenCode /connect에서 허용된 AI 계정을 연결하세요. MCP 검증은 모델 호출 없이 완료.
+[2026-10-08 08:52:23] 열림 OpenCode 명령 창 : System 전용 창 / /home/jhs/work/vulnchecker/system
+[2026-10-08 08:52:23] 완료 분석 환경 준비 : 서비스 및 연동 검사 완료. 대상 테스트는 OpenCode에서 시작하세요. AI 인증 상태는 별도 확인.
+[2026-10-08 08:52:23] 완료 실행: WebProxyTest : 개별 연결 결과를 확인하세요.
+[2026-10-08 08:52:23] LAUNCH WebProxyTest 완료
+[2026-10-08 18:47:42] PLAN Burp Suite Community
+[2026-10-08 18:47:42] PLAN Standalone Java + Android SDK + root-capable AVD
+[2026-10-08 18:47:42] PLAN Docker Desktop + MobSF static/dynamic runtime
+[2026-10-08 18:47:42] PLAN WSL2 + Kali Linux + non-root VulnChecker user
+[2026-10-08 18:47:42] PLAN HexStrike pinned source + virtual environment + OpenCode + local MCP config
+[2026-10-08 18:47:42] PLAN nmap, ffuf, sqlmap, nikto, nuclei, gobuster, feroxbuster
+[2026-10-08 18:47:42] PLAN jadx, apktool, frida-tools, objection
+[2026-10-08 18:47:42] 계정 인증, 고객사 정책 승인 및 재부팅은 사용자 작업입니다. 설치만 수행하며 대상 스캔을 시작하지 않습니다.
+[2026-10-08 18:52:26] 진행 중 실행: SystemAnalysis : 서비스 시작 및 연결 확인
+[2026-10-08 18:52:26] 대기 HexStrike HTTP : 앞 단계 완료 후 자동 진행
+[2026-10-08 18:52:26] 대기 OpenCode → HexStrike MCP : 앞 단계 완료 후 자동 진행
+[2026-10-08 18:52:26] 대기 OpenCode 명령 창 : 앞 단계 완료 후 자동 진행
+[2026-10-08 18:52:26] 진행 중 분석 환경 준비 : SystemAnalysis
+[2026-10-08 18:52:28] 준비됨 시스템 펜테스트 대상 : 독립 작업 폴더 /home/jhs/work/vulnchecker/system / IP·URL: . 점검 범위는 OpenCode에서 지정하세요.
+[2026-10-08 18:52:31] OpenCode MCP hexstrike 활성화: /home/jhs/work/vulnchecker/opencode.json (기존 설정 변경 전 백업). 사용자=jhs
+[2026-10-08 18:52:33] 연결됨 HexStrike HTTP : 기존 서버 재사용 / 127.0.0.1:8888
+[2026-10-08 18:52:34] OpenCode MCP hexstrike 활성화: /home/jhs/work/vulnchecker/opencode.json (기존 설정 변경 전 백업). 사용자=jhs
+[2026-10-08 18:52:34] 진행 중 OpenCode → HexStrike MCP : 서비스 시작 및 연결 검사
+[2026-10-08 18:52:41] MCP 초기화 · 도구 150개 · 로컬 확인 명령 왕복 성공 (대상 검사 실행 없음)
+[2026-10-08 18:52:49] 
+┌  MCP Servers
+│
+●  ✓ hexstrike connected
+│      /home/jhs/tools/hexstrike-ai/venv/bin/python /home/jhs/tools/vulnchecker/hexstrike-mcp-local.py --upstream /home/jhs/tools/hexstrike-ai/hexstrike_mcp.py --server http://127.0.0.1:8888 --timeout 300
+│
+└  1 server(s)
+
+[2026-10-08 18:52:49] 연결됨 OpenCode → HexStrike MCP : 응답 확인 완료
+[2026-10-08 18:52:49] 설정됨 OpenCode AI 계정 : 저장한 API 키와 모델 적용 완료. 실제 AI 인증은 첫 요청에서 확인합니다.
+[2026-10-08 18:52:49] 열림 OpenCode 명령 창 : System 전용 창 / /home/jhs/work/vulnchecker/system
+[2026-10-08 18:52:49] 완료 분석 환경 준비 : 시스템(IP/URL) 분석 준비 완료: OpenCode + HexStrike MCP. OpenCode에 대상 IP/URL과 점검 범위를 입력하세요.
+[2026-10-08 18:52:50] 완료 실행: SystemAnalysis : 개별 연결 결과를 확인하세요.
+[2026-10-08 18:52:50] LAUNCH SystemAnalysis 완료
+[2026-10-08 18:56:41] 설정됨 OpenCode AI 설정 : 기본 모델: ibm-ica/claude-sonnet-5. 실제 API 응답은 첫 요청에서 확인합니다. 토큰 소진 시 /models에서 DeepSeek 선택.
+[2026-10-08 18:58:40] 진행 중 실행: SystemAnalysis : 서비스 시작 및 연결 확인
+[2026-10-08 18:58:40] 대기 HexStrike HTTP : 앞 단계 완료 후 자동 진행
+[2026-10-08 18:58:40] 대기 OpenCode → HexStrike MCP : 앞 단계 완료 후 자동 진행
+[2026-10-08 18:58:40] 대기 OpenCode 명령 창 : 앞 단계 완료 후 자동 진행
+[2026-10-08 18:58:40] 진행 중 분석 환경 준비 : SystemAnalysis
+[2026-10-08 18:58:42] 준비됨 시스템 펜테스트 대상 : 독립 작업 폴더 /home/jhs/work/vulnchecker/system / IP·URL: . 점검 범위는 OpenCode에서 지정하세요.
+[2026-10-08 18:58:45] OpenCode MCP hexstrike 활성화: /home/jhs/work/vulnchecker/opencode.json (기존 설정 변경 전 백업). 사용자=jhs
+[2026-10-08 18:58:47] 연결됨 HexStrike HTTP : 기존 서버 재사용 / 127.0.0.1:8888
+[2026-10-08 18:58:48] OpenCode MCP hexstrike 활성화: /home/jhs/work/vulnchecker/opencode.json (기존 설정 변경 전 백업). 사용자=jhs
+[2026-10-08 18:58:49] 설정됨 OpenCode AI 설정 : 기본 모델: ibm-ica/claude-sonnet-5. 실제 API 응답은 첫 요청에서 확인합니다. 토큰 소진 시 /models에서 DeepSeek 선택.
+[2026-10-08 18:58:49] 진행 중 OpenCode → HexStrike MCP : 서비스 시작 및 연결 검사
+[2026-10-08 18:58:56] MCP 초기화 · 도구 150개 · 로컬 확인 명령 왕복 성공 (대상 검사 실행 없음)
+[2026-10-08 18:59:04] ┌  MCP Servers
+
+│
+●  ✓ hexstrike connected
+│      /home/jhs/tools/hexstrike-ai/venv/bin/python /home/jhs/tools/vulnchecker/hexstrike-mcp-local.py --upstream /home/jhs/tools/hexstrike-ai/hexstrike_mcp.py --server http://127.0.0.1:8888 --timeout 300
+│
+└  1 server(s)
+
+[2026-10-08 18:59:04] 연결됨 OpenCode → HexStrike MCP : 응답 확인 완료
+[2026-10-08 18:59:04] 설정됨 OpenCode AI 계정 : 저장한 API 키와 모델 적용 완료. 실제 AI 인증은 첫 요청에서 확인합니다.
+[2026-10-08 18:59:04] 열림 OpenCode 명령 창 : System 전용 창 / /home/jhs/work/vulnchecker/system
+[2026-10-08 18:59:04] 완료 분석 환경 준비 : 시스템(IP/URL) 분석 준비 완료: OpenCode + HexStrike MCP. OpenCode에 대상 IP/URL과 점검 범위를 입력하세요.
+[2026-10-08 18:59:04] 완료 실행: SystemAnalysis : 개별 연결 결과를 확인하세요.
+[2026-10-08 18:59:04] LAUNCH SystemAnalysis 완료
+[2026-10-08 19:22:27] 진행 중 실행: SystemAnalysis : 서비스 시작 및 연결 확인
+[2026-10-08 19:22:27] 대기 HexStrike HTTP : 앞 단계 완료 후 자동 진행
+[2026-10-08 19:22:27] 대기 OpenCode → HexStrike MCP : 앞 단계 완료 후 자동 진행
+[2026-10-08 19:22:27] 대기 OpenCode 명령 창 : 앞 단계 완료 후 자동 진행
+[2026-10-08 19:22:27] 진행 중 분석 환경 준비 : SystemAnalysis
+[2026-10-08 19:22:29] 준비됨 시스템 펜테스트 대상 : 독립 작업 폴더 /home/jhs/work/vulnchecker/system / IP·URL: . 점검 범위는 OpenCode에서 지정하세요.
+[2026-10-08 19:22:31] OpenCode MCP hexstrike 활성화: /home/jhs/work/vulnchecker/opencode.json (기존 설정 변경 전 백업). 사용자=jhs
+[2026-10-08 19:22:34] 연결됨 HexStrike HTTP : 기존 서버 재사용 / 127.0.0.1:8888
+[2026-10-08 19:22:35] OpenCode MCP hexstrike 활성화: /home/jhs/work/vulnchecker/opencode.json (기존 설정 변경 전 백업). 사용자=jhs
+[2026-10-08 19:22:36] 설정됨 OpenCode AI 설정 : 기본 모델: ibm-ica/claude-sonnet-5. 실제 API 응답은 첫 요청에서 확인합니다. 토큰 소진 시 /models에서 DeepSeek 선택.
+[2026-10-08 19:22:36] 진행 중 OpenCode → HexStrike MCP : 서비스 시작 및 연결 검사
+[2026-10-08 19:22:43] MCP 초기화 · 도구 150개 · 로컬 확인 명령 왕복 성공 (대상 검사 실행 없음)
+[2026-10-08 19:22:50] 
+┌  MCP Servers
+│
+●  ✓ hexstrike connected
+│      /home/jhs/tools/hexstrike-ai/venv/bin/python /home/jhs/tools/vulnchecker/hexstrike-mcp-local.py --upstream /home/jhs/tools/hexstrike-ai/hexstrike_mcp.py --server http://127.0.0.1:8888 --timeout 300
+│
+└  1 server(s)
+
+[2026-10-08 19:22:50] 연결됨 OpenCode → HexStrike MCP : 응답 확인 완료
+[2026-10-08 19:22:50] 설정됨 OpenCode AI 계정 : 저장한 API 키와 모델 적용 완료. 실제 AI 인증은 첫 요청에서 확인합니다.
+[2026-10-08 19:22:51] 열림 OpenCode 명령 창 : System 전용 창 / /home/jhs/work/vulnchecker/system
+[2026-10-08 19:22:51] 완료 분석 환경 준비 : 시스템(IP/URL) 분석 준비 완료: OpenCode + HexStrike MCP. OpenCode에 대상 IP/URL과 점검 범위를 입력하세요.
+[2026-10-08 19:22:51] 완료 실행: SystemAnalysis : 개별 연결 결과를 확인하세요.
+[2026-10-08 19:22:51] LAUNCH SystemAnalysis 완료
+[2026-10-08 19:26:22] 설정됨 OpenCode AI 설정 : 기본 모델: ibm-ica/claude-sonnet-5. 실제 API 응답은 첫 요청에서 확인합니다. 토큰 소진 시 /models에서 DeepSeek 선택.
+[2026-10-08 19:28:30] 진행 중 실행: SystemAnalysis : 서비스 시작 및 연결 확인
+[2026-10-08 19:28:30] 대기 HexStrike HTTP : 앞 단계 완료 후 자동 진행
+[2026-10-08 19:28:30] 대기 OpenCode → HexStrike MCP : 앞 단계 완료 후 자동 진행
+[2026-10-08 19:28:30] 대기 OpenCode 명령 창 : 앞 단계 완료 후 자동 진행
+[2026-10-08 19:28:30] 진행 중 분석 환경 준비 : SystemAnalysis
+[2026-10-08 19:28:32] 준비됨 시스템 펜테스트 대상 : 독립 작업 폴더 /home/jhs/work/vulnchecker/system / IP·URL: . 점검 범위는 OpenCode에서 지정하세요.
+[2026-10-08 19:28:34] OpenCode MCP hexstrike 활성화: /home/jhs/work/vulnchecker/opencode.json (기존 설정 변경 전 백업). 사용자=jhs
+[2026-10-08 19:28:37] 연결됨 HexStrike HTTP : 기존 서버 재사용 / 127.0.0.1:8888
+[2026-10-08 19:28:38] OpenCode MCP hexstrike 활성화: /home/jhs/work/vulnchecker/opencode.json (기존 설정 변경 전 백업). 사용자=jhs
+[2026-10-08 19:28:39] 설정됨 OpenCode AI 설정 : 기본 모델: ibm-ica/claude-sonnet-5. 실제 API 응답은 첫 요청에서 확인합니다. 토큰 소진 시 /models에서 DeepSeek 선택.
+[2026-10-08 19:28:39] 진행 중 OpenCode → HexStrike MCP : 서비스 시작 및 연결 검사
+[2026-10-08 19:28:46] MCP 초기화 · 도구 150개 · 로컬 확인 명령 왕복 성공 (대상 검사 실행 없음)
+[2026-10-08 19:28:53] 
+┌  MCP Servers
+│
+●  ✓ hexstrike connected
+│      /home/jhs/tools/hexstrike-ai/venv/bin/python /home/jhs/tools/vulnchecker/hexstrike-mcp-local.py --upstream /home/jhs/tools/hexstrike-ai/hexstrike_mcp.py --server http://127.0.0.1:8888 --timeout 300
+│
+└  1 server(s)
+
+[2026-10-08 19:28:53] 연결됨 OpenCode → HexStrike MCP : 응답 확인 완료
+[2026-10-08 19:28:53] 설정됨 OpenCode AI 계정 : 저장한 API 키와 모델 적용 완료. 실제 AI 인증은 첫 요청에서 확인합니다.
+[2026-10-08 19:28:53] 열림 OpenCode 명령 창 : System 전용 창 / /home/jhs/work/vulnchecker/system
+[2026-10-08 19:28:53] 완료 분석 환경 준비 : 시스템(IP/URL) 분석 준비 완료: OpenCode + HexStrike MCP. OpenCode에 대상 IP/URL과 점검 범위를 입력하세요.
+[2026-10-08 19:28:53] 완료 실행: SystemAnalysis : 개별 연결 결과를 확인하세요.
+[2026-10-08 19:28:53] LAUNCH SystemAnalysis 완료
+[2026-10-08 19:31:56] 설정됨 OpenCode AI 설정 : 기본 모델: ibm-ica/claude-sonnet-5. 실제 API 응답은 첫 요청에서 확인합니다. 토큰 소진 시 /models에서 DeepSeek 선택.

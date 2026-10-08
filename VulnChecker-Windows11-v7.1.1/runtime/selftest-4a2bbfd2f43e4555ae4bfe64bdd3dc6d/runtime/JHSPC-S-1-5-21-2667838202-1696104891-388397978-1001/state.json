@@ -1,0 +1,169 @@
+﻿{
+    "customer-data":  "preserved",
+    "windows-features":  {
+                             "status":  "complete",
+                             "updated":  "2026-10-08T18:48:04.1196209+09:00"
+                         },
+    "analysis-mode":  "Preview",
+    "connections":  {
+                        "시스템 펜테스트 대상":  {
+                                            "Detail":  "독립 작업 폴더 /work/system / IP·URL: https://example.com/api. 점검 범위는 OpenCode에서 지정하세요.",
+                                            "Status":  "준비됨",
+                                            "Name":  "시스템 펜테스트 대상",
+                                            "Updated":  "2026-10-08T18:48:06.6452954+09:00",
+                                            "Order":  5
+                                        },
+                        "HexStrike HTTP":  {
+                                               "Detail":  "준비 중 오류 발생. 실패 항목을 해결한 뒤 같은 메뉴로 재실행하세요.",
+                                               "Status":  "미완료",
+                                               "Name":  "HexStrike HTTP",
+                                               "Updated":  "2026-10-08T18:48:05.8385234+09:00",
+                                               "Order":  0
+                                           },
+                        "분석 환경 준비":  {
+                                         "Detail":  "Selected APK unavailable",
+                                         "Status":  "실패",
+                                         "Name":  "분석 환경 준비",
+                                         "Updated":  "2026-10-08T18:48:05.9458255+09:00",
+                                         "Order":  3
+                                     },
+                        "OpenCode 명령 창":  {
+                                              "Detail":  "System 전용 창 / /work/system",
+                                              "Status":  "열림",
+                                              "Name":  "OpenCode 명령 창",
+                                              "Updated":  "2026-10-08T18:48:06.3124959+09:00",
+                                              "Order":  2
+                                          },
+                        "실행: MobileAI":  {
+                                             "Detail":  "Selected APK unavailable",
+                                             "Status":  "실패",
+                                             "Name":  "실행: MobileAI",
+                                             "Updated":  "2026-10-08T18:48:05.9748273+09:00",
+                                             "Order":  4
+                                         },
+                        "OpenCode → HexStrike MCP":  {
+                                                         "Detail":  "준비 중 오류 발생. 실패 항목을 해결한 뒤 같은 메뉴로 재실행하세요.",
+                                                         "Status":  "미완료",
+                                                         "Name":  "OpenCode → HexStrike MCP",
+                                                         "Updated":  "2026-10-08T18:48:05.8772708+09:00",
+                                                         "Order":  1
+                                                     }
+                    },
+    "mobsf-image":  {
+                        "status":  "complete",
+                        "updated":  "2026-10-08T18:48:04.9062824+09:00"
+                    },
+    "acquired-app":  {
+                         "status":  "collected",
+                         "manifest":  "D:\\Code\\vulnchecker\\VulnChecker-Windows11-v7.1.1\\runtime\\selftest-4a2bbfd2f43e4555ae4bfe64bdd3dc6d\\apk-library\\S-1-5-21-2667838202-1696104891-388397978-1001\\20261008-184732-4143fbff0be14218904c6d9d408a7b5a\\manifest.json",
+                         "package":  "com.company.archive"
+                     },
+    "install-progress":  {
+                             "Current":  "burp",
+                             "Status":  "완료",
+                             "Started":  "2026-10-08T18:48:03.9585785+09:00",
+                             "Steps":  [
+                                           {
+                                               "Status":  "complete",
+                                               "Name":  "기존 설치 / 사전 확인",
+                                               "Id":  "preflight"
+                                           },
+                                           {
+                                               "Status":  "complete",
+                                               "Name":  "Windows 가상화 / WSL",
+                                               "Id":  "windows-features"
+                                           },
+                                           {
+                                               "Status":  "failed",
+                                               "Name":  "Burp",
+                                               "Id":  "burp"
+                                           },
+                                           {
+                                               "Status":  "complete",
+                                               "Name":  "Java",
+                                               "Id":  "android-java"
+                                           },
+                                           {
+                                               "Status":  "complete",
+                                               "Name":  "Docker Desktop",
+                                               "Id":  "docker-desktop"
+                                           },
+                                           {
+                                               "Status":  "complete",
+                                               "Name":  "Kali Linux",
+                                               "Id":  "kali"
+                                           },
+                                           {
+                                               "Status":  "complete",
+                                               "Name":  "Kali 분석 도구 / OpenCode",
+                                               "Id":  "kali-tools"
+                                           },
+                                           {
+                                               "Status":  "complete",
+                                               "Name":  "Android SDK / 가상 기기",
+                                               "Id":  "android-sdk-avd"
+                                           },
+                                           {
+                                               "Status":  "complete",
+                                               "Name":  "MobSF 이미지",
+                                               "Id":  "mobsf-image"
+                                           }
+                                       ]
+                         },
+    "burp":  {
+                 "status":  "failed",
+                 "error":  "download blocked by proxy",
+                 "updated":  "2026-10-08T18:48:05.4542999+09:00"
+             },
+    "mobile-target":  {
+                          "ApkPaths":  [
+                                           "/data/app/base.apk",
+                                           "/data/app/split.apk"
+                                       ],
+                          "Serial":  "emulator-5554",
+                          "Selected":  "2026-10-08T18:48:02.5604033+09:00",
+                          "Package":  "com.company.installed"
+                      },
+    "docker-desktop":  {
+                           "status":  "complete",
+                           "updated":  "2026-10-08T18:48:04.5490649+09:00"
+                       },
+    "root-capture-route":  "Auto",
+    "frida-process":  {
+                          "start":  "2026-10-08T18:47:59.9929625+09:00",
+                          "pid":  12345
+                      },
+    "android-java":  {
+                         "status":  "complete",
+                         "updated":  "2026-10-08T18:48:04.4392510+09:00"
+                     },
+    "kali-tools":  {
+                       "status":  "complete",
+                       "updated":  "2026-10-08T18:48:04.7351597+09:00"
+                   },
+    "mobile-capture-direct":  true,
+    "terminal-OpenCode-Mobile-com.company.app":  {
+                                                     "scope":  "Mobile",
+                                                     "pid":  9716,
+                                                     "work":  "/work/mobile/com.company.app",
+                                                     "start":  "2026-10-08T18:47:30.8126632+09:00"
+                                                 },
+    "android-sdk-avd":  {
+                            "status":  "complete",
+                            "updated":  "2026-10-08T18:48:04.8234646+09:00"
+                        },
+    "test-retry":  {
+                       "status":  "complete",
+                       "updated":  "2026-10-08T18:47:39.9137353+09:00"
+                   },
+    "kali":  {
+                 "status":  "complete",
+                 "updated":  "2026-10-08T18:48:04.6353149+09:00"
+             },
+    "terminal-OpenCode-System":  {
+                                     "scope":  "System",
+                                     "pid":  9716,
+                                     "work":  "/work/system",
+                                     "start":  "2026-10-08T18:47:30.8126632+09:00"
+                                 }
+}

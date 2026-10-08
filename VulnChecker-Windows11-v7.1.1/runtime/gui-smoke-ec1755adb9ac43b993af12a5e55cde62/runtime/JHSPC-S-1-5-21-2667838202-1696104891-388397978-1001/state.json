@@ -1,0 +1,54 @@
+﻿{
+    "install-progress":  {
+                             "Current":  "docker-desktop",
+                             "Status":  "진행 중",
+                             "Started":  "2026-10-08T18:47:36.6637634+09:00",
+                             "Steps":  [
+                                           {
+                                               "Status":  "complete",
+                                               "Name":  "기존 설치 / 사전 확인",
+                                               "Id":  "preflight"
+                                           },
+                                           {
+                                               "Status":  "complete",
+                                               "Name":  "Windows 가상화 / WSL",
+                                               "Id":  "windows-features"
+                                           },
+                                           {
+                                               "Status":  "complete",
+                                               "Name":  "Burp",
+                                               "Id":  "burp"
+                                           },
+                                           {
+                                               "Status":  "complete",
+                                               "Name":  "Java",
+                                               "Id":  "android-java"
+                                           },
+                                           {
+                                               "Status":  "running",
+                                               "Name":  "Docker Desktop",
+                                               "Id":  "docker-desktop"
+                                           },
+                                           {
+                                               "Status":  "pending",
+                                               "Name":  "Kali Linux",
+                                               "Id":  "kali"
+                                           },
+                                           {
+                                               "Status":  "pending",
+                                               "Name":  "Kali 분석 도구 / OpenCode",
+                                               "Id":  "kali-tools"
+                                           },
+                                           {
+                                               "Status":  "pending",
+                                               "Name":  "Android SDK / 가상 기기",
+                                               "Id":  "android-sdk-avd"
+                                           },
+                                           {
+                                               "Status":  "pending",
+                                               "Name":  "MobSF 이미지",
+                                               "Id":  "mobsf-image"
+                                           }
+                                       ]
+                         }
+}

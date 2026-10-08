@@ -1,0 +1,13 @@
+﻿{
+    "Devices":  [
+                    {
+                        "Status":  "device",
+                        "Serial":  "usb-one"
+                    },
+                    {
+                        "Status":  "unauthorized",
+                        "Serial":  "usb-two"
+                    }
+                ],
+    "Updated":  "2026-10-08T18:47:58.6768562+09:00"
+}

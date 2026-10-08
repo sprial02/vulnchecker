@@ -1,0 +1,23 @@
+﻿{
+    "acquired-app":  {
+                         "status":  "collected",
+                         "manifest":  "D:\\Code\\vulnchecker\\VulnChecker-Windows11-v7.1.1\\runtime\\selftest-4a2bbfd2f43e4555ae4bfe64bdd3dc6d\\apk-library\\S-1-5-21-2667838202-1696104891-388397978-1001\\20261008-184732-4143fbff0be14218904c6d9d408a7b5a\\manifest.json",
+                         "package":  "com.company.archive"
+                     },
+    "connections":  {
+                        "?섍꼍 ?ㅼ튂":  {
+                                        "Detail":  "?ㅽ뙣??Android SDK ?④퀎",
+                                        "Status":  "?꾨즺",
+                                        "Name":  "?섍꼍 ?ㅼ튂",
+                                        "Updated":  "2026-10-08T18:47:32.5462775+09:00",
+                                        "Order":  1
+                                    },
+                        "환경 설치":  {
+                                      "Detail":  "현재 결과",
+                                      "Status":  "일부 실패",
+                                      "Name":  "환경 설치",
+                                      "Updated":  "2026-10-08T18:47:32.5452789+09:00",
+                                      "Order":  0
+                                  }
+                    }
+}
