@@ -9,6 +9,8 @@ New-Item -ItemType Directory -Path $stage,$outDir -Force | Out-Null
 # An explicit allowlist prevents customer data, credentials, runtime logs and caches
 # from being included in a transferable package.
 $files=@(
+    'scripts\launch-opencode.py','tests\AiLaunchSmoke.py',
+    'lib\Ai.ps1','scripts\configure-ai.py','tests\AiSmoke.ps1','tests\AiConfigSmoke.py',
     'tests\TerminalSmoke.ps1','tests\RelaySmoke.ps1',
     'scripts\opencode-terminal.ps1','docs\DEPLOY.ko.md',
     'tests\WebRoutingSmoke.py',

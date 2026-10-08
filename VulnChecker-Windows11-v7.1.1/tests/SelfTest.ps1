@@ -577,6 +577,7 @@ Run-Test 'MCP failure prevents launching OpenCode UI and records failure' {
         function script:Start-HexStrike {}
         function script:Get-KaliRuntime {return [pscustomobject]@{HexPython='python';Home='/home/user';HexRepo='/repo';Work='/work';OpenCode='opencode'}}
         function script:Ensure-KaliIntegration {}
+        function script:Set-OpenCodeAi {param($Runtime)}
         function script:Invoke-Kali {return 'MCP handshake failed'}
         function script:Start-Process {$script:UiStarted=$true}
     }

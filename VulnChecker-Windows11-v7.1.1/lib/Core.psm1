@@ -493,4 +493,5 @@ function Start-Worker {
   . (Join-Path $PSScriptRoot 'AppAcquisition.ps1')
 . (Join-Path $PSScriptRoot 'MobileTargets.ps1')
 . (Join-Path $PSScriptRoot 'Gui.ps1')
+. (Join-Path $PSScriptRoot 'Ai.ps1')
 Export-ModuleMember -Function *

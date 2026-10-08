@@ -10,6 +10,7 @@ function Start-OpenCodeIntegration {
     Start-HexStrike
     $rt=Get-KaliRuntime
     Ensure-KaliIntegration $rt
+    Set-OpenCodeAi $rt
     Invoke-ConnectionStep 'OpenCode → HexStrike MCP' {
         $output=Invoke-Kali -Arguments @($rt.HexPython,"$($rt.Home)/tools/vulnchecker/check-mcp.py","$($rt.HexRepo)/hexstrike_mcp.py","http://127.0.0.1:$($script:Config.hexstrikePort)") -Quiet
         $line=@($output -split '\r?\n' | Where-Object {$_ -match '^\{"connected"'}) | Select-Object -Last 1
@@ -23,7 +24,7 @@ function Start-OpenCodeIntegration {
         Write-Log $list
     }
     if (-not $CheckOnly) { Open-AnalysisTerminal -Kind OpenCode }
-    Set-ConnectionResult 'OpenCode AI 계정' '사용자 확인' 'OpenCode /connect에서 허용된 AI 계정을 연결하세요. MCP 검증은 모델 호출 없이 완료.'
+    Set-ConnectionResult 'OpenCode AI 계정' '설정됨' '저장한 API 키와 모델 적용 완료. 실제 AI 인증은 첫 요청에서 확인합니다.'
 }
 
 function Wait-BurpProxy {

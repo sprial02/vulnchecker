@@ -25,7 +25,8 @@ function global:Show-VulnCheckerOpenCodeGuide {
 function global:Invoke-VulnCheckerOpenCode {
     param([string[]]$OpenCodeArgs=@())
     $context=$global:VulnCheckerOpenCodeContext
-    $launchArgs=@('-d',$context.Distro,'-u',$context.User,'--cd',$context.Work,'--','env',"OPENCODE_CONFIG=$($context.Config)",$context.Executable)+$OpenCodeArgs
+    $launcher=$context.Config -replace '/[^/]+$','/launch-opencode.py'
+    $launchArgs=@('-d',$context.Distro,'-u',$context.User,'--cd',$context.Work,'--','python3',$launcher,'--config',$context.Config,'--executable',$context.Executable,'--')+$OpenCodeArgs
     try {& wsl.exe @launchArgs}
     finally {Show-VulnCheckerOpenCodeGuide}
 }

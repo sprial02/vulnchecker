@@ -12,10 +12,10 @@ try {
     & (Join-Path $root 'scripts\opencode-terminal.ps1') -Distro 'fixture-kali' -User 'fixture-user' -Work '/work/system space' -Config '/work/managed config.json' -Executable '/tools/opencode' -SkipInitialLaunch
     $guide=oc *>&1 | Out-String
     $launch=$global:TerminalSmokeCalls[0]
-    if ($launch[-1] -ne '--continue' -or $launch[5] -ne '/work/system space' -or $launch[8] -ne 'OPENCODE_CONFIG=/work/managed config.json') {throw 'Resume lost working directory, config or continue flag'}
+    if ($launch[-1] -ne '--continue' -or $launch[5] -ne '/work/system space' -or $launch[8] -ne '/work/launch-opencode.py' -or $launch[10] -ne '/work/managed config.json') {throw 'Resume lost working directory, launcher, config or continue flag'}
     if ($guide -notmatch 'PowerShell' -or $guide -notmatch 'oc-new' -or $guide -notmatch '/sessions') {throw 'Return guide missing'}
     oc-new | Out-Null
-    if ($global:TerminalSmokeCalls[1][-1] -ne '/tools/opencode') {throw 'New session incorrectly resumed history'}
+    if ($global:TerminalSmokeCalls[1][-1] -ne '--') {throw 'New session incorrectly resumed history'}
     oc --session ses_fixture | Out-Null
     if (($global:TerminalSmokeCalls[2][-2..-1] -join ' ') -ne '--session ses_fixture') {throw 'Explicit session arguments lost'}
     $global:TerminalSmokeFail=$true

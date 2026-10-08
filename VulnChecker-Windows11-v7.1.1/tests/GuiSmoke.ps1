@@ -29,7 +29,7 @@ try {
     $tabs=@($form.Controls | Where-Object {$_ -is [Windows.Forms.TabControl]})[0]
     $release=Get-Content (Join-Path $root 'version.json') -Raw -Encoding UTF8 | ConvertFrom-Json
     if (-not $form.Text.Contains('v'+$release.version) -or -not $form.Controls['AppVersionTitle'].Text.Contains('v'+$release.version)) {throw 'Release version missing'}
-    if (($tabs.TabPages.Text -join '|') -ne '① 설치|② 실행 / 연동|③ 연동 결과|④ 앱 가져오기|⑤ APK 보관함') {throw 'Circled tab numbering missing'}
+    if (($tabs.TabPages.Text -join '|') -ne '① 설치|② 실행 / 연동|③ 연동 결과|④ 앱 가져오기|⑤ APK 보관함|⑥ AI 설정') {throw 'Circled tab numbering missing'}
     if ($form.TopMost) {throw 'Startup left the window permanently topmost'}
     $theme=$form.Controls['ThemeChoice']
     $theme.SelectedIndex=1
@@ -90,7 +90,17 @@ try {
     $tabs.SelectedTab=$tabs.TabPages[1]
     $mobileButtons[0].PerformClick()
     if ($tabs.SelectedTab -ne $tabs.TabPages[3]) {throw 'App acquisition shortcut does not open original tab'}
-    foreach ($index in @(0,1,2,3,4)) {
+    $aiPage=$tabs.TabPages[5]
+    if (-not $aiPage.Controls['IbmIcaApiKey'].UseSystemPasswordChar -or -not $aiPage.Controls['DeepSeekApiKey'].UseSystemPasswordChar) {throw 'API key fields must be masked'}
+    $tabs.SelectedIndex=5
+    $aiPage.Controls['IbmIcaApiKey'].Text='fixture-gui-ibm'
+    $aiPage.Controls['DeepSeekApiKey'].Text='fixture-gui-ds'
+    $aiPage.Controls['SaveAiSettings'].PerformClick()
+    if (-not (Get-AiSettings).IbmKey -or $aiPage.Controls['IbmIcaApiKey'].Text) {throw 'GUI save did not persist and clear keys'}
+    $aiPage.Controls['AiModel'].SelectedItem='deepseek/deepseek-flash'
+    $aiPage.Controls['SaveAiSettings'].PerformClick()
+    if ((Get-AiSettings).Model -ne 'deepseek/deepseek-flash' -or -not (Get-AiSettings).IbmKey) {throw 'GUI model switch lost existing key'}
+    foreach ($index in @(0,1,2,3,4,5)) {
       $tabs.SelectedIndex=$index
       [Windows.Forms.Application]::DoEvents()
       $bmp=New-Object Drawing.Bitmap($form.Width,$form.Height)

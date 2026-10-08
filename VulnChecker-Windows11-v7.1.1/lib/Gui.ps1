@@ -136,6 +136,35 @@ function New-SetupForm {
     $acquireTab=New-Object Windows.Forms.TabPage; $acquireTab.Text='④ 앱 가져오기'
     foreach ($page in @($installTab,$runTab,$resultTab,$acquireTab)) { $page.BackColor=$form.BackColor; $page.ForeColor=$form.ForeColor; $tabs.TabPages.Add($page) }
     $libraryTab=New-Object Windows.Forms.TabPage; $libraryTab.Text='⑤ APK 보관함'; $tabs.TabPages.Add($libraryTab)
+    $aiTab=New-Object Windows.Forms.TabPage; $aiTab.Text='⑥ AI 설정'; $tabs.TabPages.Add($aiTab)
+    $aiSaved=Get-AiSettings
+    $aiIntro=New-Object Windows.Forms.Label; $aiIntro.Text='IBM ICA · https://api.nextgen-beta.ica.ibm.com/ica/v1'; $aiIntro.SetBounds(14,12,950,25); $aiTab.Controls.Add($aiIntro)
+    $ibmLabel=New-Object Windows.Forms.Label; $ibmLabel.Text='IBM ICA API KEY'; $ibmLabel.SetBounds(14,48,195,26); $aiTab.Controls.Add($ibmLabel)
+    $ibmKeyInput=New-Object Windows.Forms.TextBox; $ibmKeyInput.Name='IbmIcaApiKey'; $ibmKeyInput.UseSystemPasswordChar=$true; $ibmKeyInput.SetBounds(214,45,530,28); $aiTab.Controls.Add($ibmKeyInput)
+    $removeIbm=New-Object Windows.Forms.CheckBox; $removeIbm.Text='저장 키 삭제'; $removeIbm.SetBounds(766,46,180,26); $aiTab.Controls.Add($removeIbm)
+    $dsLabel=New-Object Windows.Forms.Label; $dsLabel.Text='DEEPSEEK API KEY'; $dsLabel.SetBounds(14,86,195,26); $aiTab.Controls.Add($dsLabel)
+    $dsKeyInput=New-Object Windows.Forms.TextBox; $dsKeyInput.Name='DeepSeekApiKey'; $dsKeyInput.UseSystemPasswordChar=$true; $dsKeyInput.SetBounds(214,83,530,28); $aiTab.Controls.Add($dsKeyInput)
+    $removeDs=New-Object Windows.Forms.CheckBox; $removeDs.Text='저장 키 삭제'; $removeDs.SetBounds(766,84,180,26); $aiTab.Controls.Add($removeDs)
+    $aiModelLabel=New-Object Windows.Forms.Label; $aiModelLabel.Text='시작 모델 (기본 IBM ICA)'; $aiModelLabel.SetBounds(14,124,195,26); $aiTab.Controls.Add($aiModelLabel)
+    $aiModel=New-Object Windows.Forms.ComboBox; $aiModel.Name='AiModel'; $aiModel.DropDownStyle='DropDownList'; $aiModel.SetBounds(214,121,530,28); [void]$aiModel.Items.AddRange([object[]](Get-AiModelIds)); $aiModel.SelectedItem=$aiSaved.Model; $aiTab.Controls.Add($aiModel)
+    $aiState=New-Object Windows.Forms.Label; $aiState.Name='AiKeyStatus'; $aiState.SetBounds(14,158,950,25); $aiTab.Controls.Add($aiState)
+    $refreshAiStatus={
+        $saved=Get-AiSettings
+        $ibm='미입력'; if ($saved.IbmKey) {$ibm='저장됨'}
+        $ds='미입력 (선택)'; if ($saved.DeepSeekKey) {$ds='저장됨'}
+        $aiState.Text="IBM ICA: $ibm / DeepSeek: $ds · 빈 입력란은 기존 키 유지"
+    }.GetNewClosure()
+    & $refreshAiStatus
+    $aiSave=New-Object Windows.Forms.Button; $aiSave.Name='SaveAiSettings'; $aiSave.Text='API 키 / 모델 저장'; $aiSave.SetBounds(14,190,260,36); $aiTab.Controls.Add($aiSave)
+    $aiSave.Add_Click({
+        try {
+            Save-AiSettings -Model $aiModel.SelectedItem -IbmKey $ibmKeyInput.Text -DeepSeekKey $dsKeyInput.Text -RemoveIbm:$removeIbm.Checked -RemoveDeepSeek:$removeDs.Checked
+            $ibmKeyInput.Clear(); $dsKeyInput.Clear(); $removeIbm.Checked=$false; $removeDs.Checked=$false
+            & $refreshAiStatus
+            $status.Text='AI 설정 저장 완료 · 다음 펜테스트 실행에 적용됩니다. 열린 OpenCode는 종료 후 실행 버튼으로 다시 여세요.'
+        } catch {[Windows.Forms.MessageBox]::Show($_.Exception.Message,'AI 설정') | Out-Null}
+    }.GetNewClosure())
+    $aiHint=New-Object Windows.Forms.Label; $aiHint.Text='토큰 소진 시 OpenCode /models → DeepSeek 선택 (수동 전환). 키는 Windows 계정 암호화로 저장됩니다.'; $aiHint.SetBounds(14,236,950,27); $aiTab.Controls.Add($aiHint)
     $libraryPathLabel=New-Object Windows.Forms.Label; $libraryPathLabel.Name='ApkLibraryPath'; $libraryPathLabel.Text=('저장 위치: '+(Get-ApkLibraryRoot)); $libraryPathLabel.SetBounds(14,10,950,28); $libraryPathLabel.AutoEllipsis=$true; $libraryTab.Controls.Add($libraryPathLabel)
     $libraryList=New-Object Windows.Forms.ListBox; $libraryList.Name='SavedApkSets'; $libraryList.SetBounds(14,42,950,144); $libraryList.DisplayMember='Label'; $libraryList.HorizontalScrollbar=$true; $libraryTab.Controls.Add($libraryList)
     $refreshLibrary={
@@ -396,6 +425,7 @@ function New-SetupForm {
         Set-SetupTheme $form $theme
     }.GetNewClosure()
     & $applyTheme
+    if (-not $aiSaved.IbmKey -and -not $aiSaved.DeepSeekKey) {$tabs.SelectedTab=$aiTab}
     $themeChoice.Add_SelectedIndexChanged({
         & $applyTheme
         $theme='Dark'; if ($themeChoice.SelectedIndex -eq 1) {$theme='Light'}

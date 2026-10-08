@@ -1,5 +1,15 @@
 # VulnChecker
 
+### IBM ICA / DeepSeek AI 설정
+
+처음 실행하면 **⑥ AI 설정** 탭이 열립니다. **IBM ICA API KEY**와 선택 사항인 **DEEPSEEK API KEY**를 입력하고 **API 키 / 모델 저장**을 누른 뒤 펜테스트 실행 버튼을 사용하세요. 설치 전에도 키를 저장할 수 있습니다.
+
+IBM ICA 주소는 `https://api.nextgen-beta.ica.ibm.com/ica/v1`이며 기본 모델은 `gemini-3.1-pro-preview`입니다. 같은 제공자의 `claude-sonnet-4-6`, `claude-sonnet-5`도 선택할 수 있습니다. 모델 ID는 회사에서 제공한 값을 그대로 사용합니다. OpenAI 호환 Chat Completions와 Bearer API 키 인증을 전제로 구성했으며, 회사 게이트웨이가 다른 인증/요청 형식을 요구하면 추가 조정이 필요합니다.
+
+DeepSeek는 예비 제공자로 등록됩니다. IBM ICA 토큰 소진 시 열린 OpenCode에서 `/models` → **DeepSeek (backup)** → `deepseek-v4-flash`, `deepseek-flash` 또는 `deepseek-v4-pro`를 선택해 이어서 진행하세요. 자동 전환은 하지 않습니다. 다음 실행에도 DeepSeek를 사용하려면 AI 설정의 시작 모델을 변경해 저장하세요. 모델 구성은 [OpenCode 제공자 문서](https://opencode.ai/docs/providers/)와 [DeepSeek 공식 문서](https://api-docs.deepseek.com/)를 기준으로 합니다.
+
+키 입력란은 마스킹되며 Windows 저장본은 현재 계정의 DPAPI로 암호화됩니다. 빈 입력란은 저장한 키를 유지하고, 삭제 체크박스를 선택하면 다음 실행에 해당 키가 제거됩니다. 실행할 때 Kali 사용자 전용 폴더에 읽기 제한된 키 파일(폴더 700 / 파일 600)을 만들고 OpenCode에는 파일 참조만 저장합니다. 실행기는 키 파일을 읽어 IBM_ICA_API_KEY / DEEPSEEK_API_KEY 환경변수를 OpenCode 프로세스에 전달하고, 설정된 제공자와 시작 모델을 명시합니다. 수동 export는 필요 없습니다. 기존 MCP와 다른 제공자 설정은 유지합니다. 키와 실행 자료는 배포 ZIP에 포함되지 않습니다. 실행기 업데이트 후에는 OpenCode와 전용 명령 창을 모두 닫고 VulnChecker 실행 버튼으로 다시 여세요. 예전 명령 창의 oc 함수는 업데이트 전 실행 방식을 유지합니다. 실제 API 인증·스트리밍·도구 호출은 유효한 키를 넣고 첫 점검 요청에서 확인해야 합니다.
+
 고객사 Windows 11 x64 PC에서 웹·Android 진단 환경을 준비하는 PowerShell 5.1 기반 데스크톱 설치/실행 관리자입니다. 별도 Python/Node 설치 없이 `Start.cmd`로 엽니다. 현재 버전 **7.1.1** (2026-10-07), 화면 제목과 `version.json`에서 확인합니다.
 
 **현재 기본값: Burp Community, Android 11(API 30) Google APIs x86_64 (Google Play 없음), WSL2 Kali, HexStrike, OpenCode, Docker Desktop, MobSF.**
