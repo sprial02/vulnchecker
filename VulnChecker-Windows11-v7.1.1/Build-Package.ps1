@@ -9,6 +9,9 @@ New-Item -ItemType Directory -Path $stage,$outDir -Force | Out-Null
 # An explicit allowlist prevents customer data, credentials, runtime logs and caches
 # from being included in a transferable package.
 $files=@(
+    'lib\Infrastructure.ps1','lib\InfrastructureGui.ps1','tests\InfrastructureSmoke.ps1','docs\INFRASTRUCTURE.ko.html',
+    'infrastructure\ansible.cfg','infrastructure\requirements.txt','infrastructure\collections.yml','infrastructure\README.ko.md','infrastructure\VALIDATION.ko.md',
+    'infrastructure\inventory\hosts.example.yml','infrastructure\inventory\group_vars\all\settings.yml',
     'scripts\launch-opencode.py','tests\AiLaunchSmoke.py',
     'lib\Ai.ps1','scripts\configure-ai.py','tests\AiSmoke.ps1','tests\AiConfigSmoke.py',
     'tests\TerminalSmoke.ps1','tests\RelaySmoke.ps1',
@@ -24,6 +27,10 @@ $files=@(
     'docs\GUIDE.ko.html','docs\SOURCES.md','docs\VALIDATION.md','docs\INSTALL-FIX-20261005.md',
     'tests\SelfTest.ps1','tests\GuiSmoke.ps1','tests\AcquisitionSmoke.ps1','tests\MobSfFridaSmoke.py','tests\KaliBootstrapSmoke.py'
 )
+foreach ($folder in @('scripts','playbooks','plugins','tests')) {
+    $base=Join-Path $root ('infrastructure\'+$folder)
+    $files+=Get-ChildItem -LiteralPath $base -Recurse -File | Where-Object {$_.Extension -in @('.py','.ps1','.sh','.yml')} | ForEach-Object {$_.FullName.Substring($root.Length+1)}
+}
 foreach ($relative in $files) {
     $dest=Join-Path $stage $relative
     New-Item -ItemType Directory -Path (Split-Path $dest) -Force | Out-Null

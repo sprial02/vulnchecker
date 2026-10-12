@@ -1,0 +1,12 @@
+vendor/
+.venv/
+collections/
+inventory/hosts.yml
+inventory/group_vars/all/vault.yml
+runs/
+__pycache__/
+inventory/target-test.yml
+inventory/group_vars/all/vault-test.yml
+.vault-password*
+installed-*.txt
+dist/

@@ -27,9 +27,24 @@ try {
     $form.Show()
     [Windows.Forms.Application]::DoEvents()
     $tabs=@($form.Controls | Where-Object {$_ -is [Windows.Forms.TabControl]})[0]
+    $map=$form.Controls['ConnectionMap']
+    if (-not $map -or @($map.Tag.Views | Where-Object State -ne 'Unknown').Count) {throw 'Connection map should start unverified'}
+    & $m {
+        Set-ConnectionResult 'Android ADB' '연결됨' 'fixture ADB response'
+        Set-ConnectionResult 'HexStrike HTTP' '연결됨' 'fixture HTTP response'
+        Set-ConnectionResult 'OpenCode → HexStrike MCP' '실패' 'fixture MCP failure'
+        Set-ConnectionResult 'Burp Proxy' '진행 중' 'fixture waiting'
+    }
+    for ($wait=0; $wait -lt 4 -and $map.Tag.Views[1].State -ne 'Failed'; $wait++) {Start-Sleep -Milliseconds 1000; [Windows.Forms.Application]::DoEvents()}
+    if (($map.Tag.Views.State -join ',') -ne 'Connected,Failed,Pending') {throw 'Actual connection results not reflected in map'}
+    & $m {Set-ConnectionResult 'OpenCode → HexStrike MCP' '연결됨' 'fixture MCP recovered'; Set-ConnectionResult 'Burp Proxy' '中止' 'fixture unknown status'}
+    for ($wait=0; $wait -lt 4 -and $map.Tag.Views[1].State -ne 'Connected'; $wait++) {Start-Sleep -Milliseconds 1000; [Windows.Forms.Application]::DoEvents()}
+    if (($map.Tag.Views.State -join ',') -ne 'Connected,Connected,Unknown') {throw 'Connection recovery or unverified status failed'}
+    [Windows.Forms.Control].GetMethod('OnClick',[Reflection.BindingFlags]'NonPublic,Instance').Invoke($map,@([EventArgs]::Empty)) | Out-Null
+    if ($tabs.SelectedTab -ne $tabs.TabPages[2]) {throw 'Connection map detail navigation failed'}
     $release=Get-Content (Join-Path $root 'version.json') -Raw -Encoding UTF8 | ConvertFrom-Json
     if (-not $form.Text.Contains('v'+$release.version) -or -not $form.Controls['AppVersionTitle'].Text.Contains('v'+$release.version)) {throw 'Release version missing'}
-    if (($tabs.TabPages.Text -join '|') -ne '① 설치|② 실행 / 연동|③ 연동 결과|④ 앱 가져오기|⑤ APK 보관함|⑥ AI 설정') {throw 'Circled tab numbering missing'}
+    if (($tabs.TabPages.Text -join '|') -ne '① 설치|② 실행 / 연동|③ 연동 결과|④ 앱 가져오기|⑤ APK 보관함|⑥ AI 설정|⑦ 인프라 점검') {throw 'Circled tab numbering missing'}
     if ($form.TopMost) {throw 'Startup left the window permanently topmost'}
     $theme=$form.Controls['ThemeChoice']
     $theme.SelectedIndex=1

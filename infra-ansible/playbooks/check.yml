@@ -1,0 +1,120 @@
+---
+- name: Linux KISA infrastructure checks
+  hosts: linux
+  gather_facts: false
+  tasks:
+    - name: Validate platform
+      ansible.builtin.assert:
+        that:
+          - kisa_platform in ['Debian', 'RedHat']
+    - name: Create isolated workspace
+      ansible.builtin.tempfile:
+        state: directory
+        prefix: kisa-infra-
+      register: workspace
+    - name: Extract original scripts
+      ansible.builtin.unarchive:
+        src: '{{ controller_bundle_tar }}'
+        dest: '{{ workspace.path }}'
+    - name: Deliver execution wrapper
+      ansible.builtin.copy:
+        src: ../scripts/linux-execute.py
+        dest: '{{ workspace.path }}/linux-execute.py'
+        mode: '0600'
+    - name: Run all original Linux items
+      ansible.builtin.command:
+        argv:
+          - '{{ ansible_python_interpreter | default("/usr/bin/python3") }}'
+          - '{{ workspace.path }}/linux-execute.py'
+          - '{{ workspace.path }}'
+          - '{{ kisa_platform }}'
+          - '{{ kisa_item_timeout | default(90) | string }}'
+      async: '{{ kisa_run_timeout | default(7200) }}'
+      poll: 10
+      register: execution
+      failed_when: false
+    - name: Archive evidence even when execution failed
+      ansible.builtin.command:
+        argv: [tar, -czf, '{{ workspace.path }}/evidence.tar.gz', '--exclude=./evidence.tar.gz', ./execution.json, ./execution-logs, './01.Unix서버']
+        chdir: '{{ workspace.path }}'
+      register: archive
+      failed_when: false
+    - name: Collect evidence
+      ansible.builtin.fetch:
+        src: '{{ workspace.path }}/evidence.tar.gz'
+        dest: '{{ controller_run_dir }}/{{ inventory_hostname }}/evidence.tar.gz'
+        flat: true
+    - name: Check wrapper completion
+      ansible.builtin.assert:
+        that:
+          - not (execution.failed | default(false))
+          - execution.rc | default(1) == 0
+          - archive.rc == 0
+        fail_msg: 'Wrapper or evidence archiving failed; remote workspace retained.'
+
+- name: Windows KISA infrastructure checks
+  hosts: windows
+  gather_facts: false
+  tasks:
+    - name: Create isolated workspace
+      ansible.windows.win_tempfile:
+        state: directory
+        prefix: kisa-infra-
+      register: workspace
+    - name: Restrict evidence folder to administrators and SYSTEM
+      ansible.windows.win_powershell:
+        script: |
+          param([string]$Path)
+          $acl = Get-Acl -LiteralPath $Path
+          $acl.SetAccessRuleProtection($true, $false)
+          foreach ($sid in @('S-1-5-18', 'S-1-5-32-544')) {
+            $identity = New-Object System.Security.Principal.SecurityIdentifier($sid)
+            $rule = New-Object System.Security.AccessControl.FileSystemAccessRule($identity, 'FullControl', 'ContainerInherit,ObjectInherit', 'None', 'Allow')
+            $acl.AddAccessRule($rule)
+          }
+          Set-Acl -LiteralPath $Path -AclObject $acl
+        parameters:
+          Path: '{{ workspace.path }}'
+    - name: Deliver original scripts bundle
+      ansible.windows.win_copy:
+        src: '{{ controller_bundle_zip }}'
+        dest: '{{ workspace.path }}\source.zip'
+    - name: Extract original scripts
+      ansible.windows.win_powershell:
+        script: |
+          param([string]$Root)
+          Expand-Archive -LiteralPath (Join-Path $Root 'source.zip') -DestinationPath $Root
+        parameters:
+          Root: '{{ workspace.path }}'
+    - name: Deliver execution wrapper
+      ansible.windows.win_copy:
+        src: ../scripts/windows-execute.ps1
+        dest: '{{ workspace.path }}\windows-execute.ps1'
+    - name: Run all original Windows items
+      ansible.windows.win_shell: >-
+        powershell.exe -NoProfile -NonInteractive -ExecutionPolicy Bypass
+        -File "{{ workspace.path }}\windows-execute.ps1"
+        -Root "{{ workspace.path }}" -ItemTimeout {{ kisa_item_timeout | default(90) | int }}
+      async: '{{ kisa_run_timeout | default(7200) }}'
+      poll: 10
+      register: execution
+      failed_when: false
+    - name: Archive evidence
+      ansible.windows.win_powershell:
+        script: |
+          param([string]$Root)
+          $paths = @('execution.json', 'execution-logs', '02.Windows서버') | ForEach-Object { Join-Path $Root $_ }
+          Compress-Archive -LiteralPath $paths -DestinationPath (Join-Path $Root 'evidence.zip')
+        parameters:
+          Root: '{{ workspace.path }}'
+    - name: Collect evidence
+      ansible.builtin.fetch:
+        src: '{{ workspace.path }}\evidence.zip'
+        dest: '{{ controller_run_dir }}/{{ inventory_hostname }}/evidence.zip'
+        flat: true
+    - name: Check wrapper completion
+      ansible.builtin.assert:
+        that:
+          - not (execution.failed | default(false))
+          - execution.rc | default(1) == 0
+

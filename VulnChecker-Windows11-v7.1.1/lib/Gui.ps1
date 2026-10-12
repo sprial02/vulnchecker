@@ -6,6 +6,10 @@
 
 function Get-WorkerCompletionMessage {
     param([string]$Action,$ExitCode,[string]$ConnectionsPath,[DateTime]$Started)
+    if ($Action -eq 'Infrastructure') {
+        if ($ExitCode -eq 0) {return '인프라 작업 완료 · ⑦ 인프라 점검의 점검 결과에서 확인하세요.'}
+        return '인프라 작업에 실패 항목이 있습니다 · ⑦ 점검 결과의 오류와 증적을 확인하세요.'
+    }
     if ($ExitCode -eq 3010) {return '재부팅 필요 · Windows 재부팅 → Start.cmd → 같은 계정으로 자동 설치 / 이어하기'}
     if ($Action -eq 'Preflight') {
         if ($ExitCode -eq 0) {return '사전 확인 완료 · 미탐지 / 미확인은 설치 전 상태입니다. 약관 확인 후 자동 설치 / 이어하기를 누르세요.'}
@@ -66,6 +70,83 @@ function Set-SetupTheme {
     foreach ($child in $Control.Controls) {Set-SetupTheme $child $Theme}
 }
 
+function Get-ConnectionMapView {
+    param([object[]]$Rows=@())
+    $groups=@(
+        @{Name='모바일'; Pattern='Android|Frida server|모바일.*연결|모바일 API 분석|루팅 우회 세션|분석 앱 실행|^실행: (Emulator|MobileAI|MobileApi|RootBypass)$|^앱 확보:'},
+        @{Name='HexStrike'; Pattern='^HexStrike HTTP$|HexStrike MCP|^실행: (HexStrike|CheckMcp|SystemAnalysis)$'},
+        @{Name='웹 / Burp'; Pattern='^Burp Proxy$|^자동 웹 점검 → Burp$|^실행: (Burp|WebProxyTest)$'}
+    )
+    foreach ($group in $groups) {
+        $matches=@($Rows | Where-Object {$_.Name -match $group.Pattern} | Sort-Object Updated -Descending)
+        $state='Unknown'; $label='미확인'
+        # An unresolved failed check must not be hidden by a successful sibling check.
+        foreach ($rule in @(
+            @{State='Failed'; Label='실패'; Values=@('실패','미완료')},
+            @{State='Pending'; Label='확인 중'; Values=@('진행 중','준비 중','대기')},
+            @{State='Stopped'; Label='연결 종료'; Values=@('중지됨','종료됨','전환됨')},
+            @{State='Connected'; Label='연결됨'; Values=@('연결됨')}
+        )) {
+            $found=@($matches | Where-Object {$_.Status -in $rule.Values} | Select-Object -First 1)
+            if ($found.Count) {$state=$rule.State; $label=$rule.Label; break}
+        }
+        $detail='실행 후 실제 연결 검사 결과를 표시합니다.'
+        if ($matches.Count) {$detail=($matches | ForEach-Object {"$($_.Name): $($_.Status) · $($_.Detail) [$($_.Updated)]"}) -join "`r`n"}
+        [pscustomobject]@{Name=$group.Name; State=$state; Label=$label; Detail=$detail}
+    }
+}
+
+function New-ConnectionMap {
+    $panel=New-Object Windows.Forms.Panel
+    $panel.Name='ConnectionMap'; $panel.SetBounds(530,55,500,84); $panel.Anchor='Top,Right'
+    $panel.Tag=@{Views=@(Get-ConnectionMapView)}
+    $panel.AccessibleName='컴퓨터와 모바일, HexStrike, 웹의 실제 실행 연결 결과'
+    $panel.Cursor=[Windows.Forms.Cursors]::Hand
+    $panel.Add_Paint({
+        param($sender,$eventArgs)
+        $g=$eventArgs.Graphics; $g.SmoothingMode='AntiAlias'
+        $ink=New-Object Drawing.SolidBrush($sender.ForeColor)
+        $iconPen=New-Object Drawing.Pen($sender.ForeColor,1.6)
+        $font=New-Object Drawing.Font('맑은 고딕',9)
+        try {
+            # Local computer, with three independent connections (no implied target-to-target link).
+            $g.DrawRectangle($iconPen,12,22,32,23); $g.DrawLine($iconPen,28,45,28,51); $g.DrawLine($iconPen,19,51,37,51)
+            $g.DrawString('컴퓨터',$font,$ink,3,54)
+            for ($i=0; $i -lt 3; $i++) {
+                $view=$sender.Tag.Views[$i]; $y=14+28*$i
+                $color=[Drawing.Color]::FromArgb(133,145,163)
+                if ($view.State -eq 'Connected') {$color=[Drawing.Color]::FromArgb(37,175,119)}
+                elseif ($view.State -eq 'Failed') {$color=[Drawing.Color]::FromArgb(231,78,91)}
+                elseif ($view.State -eq 'Pending') {$color=[Drawing.Color]::FromArgb(211,158,37)}
+                $pen=New-Object Drawing.Pen($color,2)
+                $brush=New-Object Drawing.SolidBrush($color)
+                try {
+                    if ($view.State -ne 'Connected') {$pen.DashStyle='Dash'}
+                    if ($view.State -eq 'Failed') {
+                        $middle=([single]($y+35)/2)
+                        $g.DrawLine($pen,53,35,143,($middle-($y-35)*0.04))
+                        $g.DrawLine($pen,163,($middle+($y-35)*0.04),253,$y)
+                        $g.DrawString('×',$font,$brush,146,($middle-10))
+                    } else {$g.DrawLine($pen,53,35,253,$y)}
+                    $pen.DashStyle='Solid'
+                    if ($i -eq 0) {
+                        $g.DrawRectangle($pen,263,($y-9),11,18); $g.DrawLine($pen,266,($y+5),271,($y+5))
+                    } elseif ($i -eq 1) {
+                        $points=[Drawing.Point[]]@([Drawing.Point]::new(268,$y-9),[Drawing.Point]::new(277,$y-5),[Drawing.Point]::new(277,$y+5),[Drawing.Point]::new(268,$y+9),[Drawing.Point]::new(259,$y+5),[Drawing.Point]::new(259,$y-5))
+                        $g.DrawPolygon($pen,$points)
+                    } else {
+                        $g.DrawEllipse($pen,259,($y-9),18,18); $g.DrawEllipse($pen,264,($y-9),8,18); $g.DrawLine($pen,259,$y,277,$y)
+                    }
+                    $g.DrawString($view.Name,$font,$ink,286,($y-10))
+                    $g.FillEllipse($brush,397,($y-3),6,6)
+                    $g.DrawString($view.Label,$font,$brush,410,($y-10))
+                } finally {$pen.Dispose(); $brush.Dispose()}
+            }
+        } finally {$ink.Dispose(); $iconPen.Dispose(); $font.Dispose()}
+    }.GetNewClosure())
+    return $panel
+}
+
 function New-SetupForm {
     Add-Type -AssemblyName System.Windows.Forms
     Add-Type -AssemblyName System.Drawing
@@ -91,12 +172,18 @@ function New-SetupForm {
     try {if ((Get-Content -LiteralPath $preferencesPath -Raw -Encoding UTF8 | ConvertFrom-Json).Theme -eq 'Light') {$themeChoice.SelectedIndex=1}} catch {}
     $sub=New-Object Windows.Forms.Label
     $sub.Text="Windows 11 x64 · 웹 / Android 진단 환경 설치 및 실행  |  프로필: $($script:Config.profile) · 빌드: $($script:AppRelease.buildDate)"
-    $sub.SetBounds(30,75,1000,30)
+    $sub.SetBounds(30,75,480,30)
+    $sub.Font=New-Object Drawing.Font('맑은 고딕',8)
     $form.Controls.Add($sub)
     $info=New-Object Windows.Forms.Label
-    $info.Text='환경 설치 → 모바일 앱 또는 시스템(IP/URL) 선택 → 분석 도구 실행 → 연동 결과 확인'
-    $info.SetBounds(30,110,1000,28)
+    $info.Text='실행 결과 · 녹색: 연결 / 빨강: 실패 / 노랑: 확인 중 / 회색: 미확인·종료'
+    $info.Font=New-Object Drawing.Font('맑은 고딕',8)
+    $info.SetBounds(30,110,490,28)
     $form.Controls.Add($info)
+    $connectionMap=New-ConnectionMap; $form.Controls.Add($connectionMap)
+    $connectionTip=New-Object Windows.Forms.ToolTip
+    $connectionTip.AutoPopDelay=20000
+    $connectionTip.SetToolTip($connectionMap,'실제 실행의 마지막 연결 검사 결과입니다. 클릭하면 연동 결과를 엽니다.')
     $terms=New-Object Windows.Forms.CheckBox
     $terms.Text='고객사 설치 허용 및 소프트웨어 약관을 확인했습니다. 아래 자동 설치 버튼으로 없는 도구를 다운로드·설치합니다.'
     $terms.SetBounds(14,18,960,30)
@@ -133,6 +220,7 @@ function New-SetupForm {
     $installTab=New-Object Windows.Forms.TabPage; $installTab.Text='① 설치'
     $runTab=New-Object Windows.Forms.TabPage; $runTab.Text='② 실행 / 연동'
     $resultTab=New-Object Windows.Forms.TabPage; $resultTab.Text='③ 연동 결과'
+    $connectionMap.Add_Click({$tabs.SelectedTab=$resultTab}.GetNewClosure())
     $acquireTab=New-Object Windows.Forms.TabPage; $acquireTab.Text='④ 앱 가져오기'
     foreach ($page in @($installTab,$runTab,$resultTab,$acquireTab)) { $page.BackColor=$form.BackColor; $page.ForeColor=$form.ForeColor; $tabs.TabPages.Add($page) }
     $libraryTab=New-Object Windows.Forms.TabPage; $libraryTab.Text='⑤ APK 보관함'; $tabs.TabPages.Add($libraryTab)
@@ -249,6 +337,7 @@ function New-SetupForm {
         @{Text='보관함 새로고침';Action='RefreshLibrary';X=646;Y=190;W=318;H=40;Page=$libraryTab}
     )
     $gui=@{Process=$null; LastLogLength=-1; Log=$script:Log; ConfigPath=$script:ConfigPath; Connections=(Join-Path $script:Runtime 'connections.json'); LastConnections=''; LastAction=''; Started=[DateTime]::MinValue; NextSessionCheck=[DateTime]::MinValue}
+    Add-InfrastructureTab -Tabs $tabs -Gui $gui -Status $status -Buttons $buttons -Form $form
     foreach ($item in $model) {
         $button=New-Object Windows.Forms.Button
         $button.Text=$item.Text
@@ -369,6 +458,9 @@ function New-SetupForm {
                     $gui.LastConnections=$json; $grid.Rows.Clear()
                     $rows=$json | ConvertFrom-Json
                     foreach ($row in $rows) { [void]$grid.Rows.Add([string]$row.Name,[string]$row.Status,[string]$row.Detail,[string]$row.Updated) }
+                    $connectionMap.Tag.Views=@(Get-ConnectionMapView -Rows @($rows))
+                    $connectionTip.SetToolTip($connectionMap,('마지막 실행 검사 결과 · 클릭하여 상세 보기'+"`r`n"+(($connectionMap.Tag.Views | ForEach-Object {$_.Name+': '+$_.Label+"`r`n"+$_.Detail}) -join "`r`n`r`n")))
+                    $connectionMap.Invalidate()
                 }
             } catch { }
         }
@@ -423,20 +515,30 @@ function New-SetupForm {
     $applyTheme={
         $theme='Dark'; if ($themeChoice.SelectedIndex -eq 1) {$theme='Light'}
         Set-SetupTheme $form $theme
+        $connectionMap.Invalidate()
     }.GetNewClosure()
     & $applyTheme
     if (-not $aiSaved.IbmKey -and -not $aiSaved.DeepSeekKey) {$tabs.SelectedTab=$aiTab}
+    if (@((Get-InfrastructureSettings).Servers).Count) {$tabs.SelectedIndex=6}
+    try {
+        $savedPreferences=Read-SharedText $preferencesPath | ConvertFrom-Json
+        if ($savedPreferences.PSObject.Properties['LastTab'] -and [int]$savedPreferences.LastTab -ge 0 -and [int]$savedPreferences.LastTab -lt $tabs.TabPages.Count) {$tabs.SelectedIndex=[int]$savedPreferences.LastTab}
+    } catch {}
+    $savePreferences={
+        $theme='Dark'; if ($themeChoice.SelectedIndex -eq 1) {$theme='Light'}
+        Write-AtomicText -Path $preferencesPath -Text (@{Theme=$theme;LastTab=$tabs.SelectedIndex} | ConvertTo-Json)
+    }.GetNewClosure()
+    $tabs.Add_SelectedIndexChanged({try {& $savePreferences} catch {$status.Text='화면 설정 저장 실패: '+$_.Exception.Message}}.GetNewClosure())
     $themeChoice.Add_SelectedIndexChanged({
         & $applyTheme
-        $theme='Dark'; if ($themeChoice.SelectedIndex -eq 1) {$theme='Light'}
-        try {Write-AtomicText -Path $preferencesPath -Text (@{Theme=$theme} | ConvertTo-Json)} catch {$status.Text='테마 설정 저장 실패: '+$_.Exception.Message}
+        try {& $savePreferences} catch {$status.Text='테마 설정 저장 실패: '+$_.Exception.Message}
     }.GetNewClosure())
     $form.Add_Shown({
         $log.SelectionStart=$log.TextLength; $log.ScrollToCaret()
         # Raise only at startup; do not stay above the analysis tools afterward.
         $form.WindowState='Normal'; $form.TopMost=$true; $form.BringToFront(); [void]$form.Activate(); $form.TopMost=$false
     }.GetNewClosure())
-    $form.Add_FormClosed({ $timer.Stop(); $timer.Dispose() }.GetNewClosure())
+    $form.Add_FormClosed({ $timer.Stop(); $timer.Dispose(); $connectionTip.Dispose() }.GetNewClosure())
     return $form
 }
 

@@ -137,3 +137,8 @@
 - Windows/WSL 릴레이에서 한 방향 EOF 때문에 응답을 취소하던 동작 수정. WSL localhost forwarding의 half-close 처리도 보완. 별도 loopback 포트에서 2 MiB 바이너리 응답 4회(클라이언트 half-close 2회 포함) 바이트 단위 일치 확인.
 - 실제 Burp 2026.8 → Windows 8080 → Kali 18880 경로에서 Burp HTTP 응답 및 CA 다운로드·검증 성공. 같은 준비를 연속 2회 수행하여 릴레이 재사용 성공.
 - PowerShell 회귀 91개 통과. 설치 버전 정렬 및 에디션 필터 회귀 포함. 외부 대상 스캔은 수행하지 않음.
+
+
+## v7.2.0 · ⑦ 인프라 점검 UI 통합 (2026-10-12)
+
+Start.cmd에서 7번 탭을 열어 서버 등록, Ansible 설치/확인, SSH/WinRM/PSRP 접속 확인, 선택/전체 점검, 결과 조회와 실패 서버 선택 재실행을 제공합니다. DPAPI 암호 저장·빈 입력 유지·조건별 필드·실패 서버 선택·화면 배치를 GUI 검사로 확인했고 기존 회귀 검사 91개가 통과했습니다. 실제 Linux와 Windows 서버로 통합 실행 및 증적 회수를 확인했습니다. Linux U-64의 기존 원본 오류는 UI에도 실행 실패로 표시됩니다. 상세 실행 ID와 제한은 infrastructure/VALIDATION.ko.md를 참고하세요.

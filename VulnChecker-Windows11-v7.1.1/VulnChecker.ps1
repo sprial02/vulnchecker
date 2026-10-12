@@ -1,8 +1,8 @@
 ﻿#Requires -Version 5.1
 [CmdletBinding()]
 param(
-    [ValidateSet('Gui','Plan','Preflight','Install','Verify','Launch','Stop','Guide')][string]$Action='Gui',
-    [ValidateSet('MobileAnalysis','MobSfAnalysis','MobileApi','MobileAI','SystemAnalysis','WebProxyTest','CheckMcp','RefreshAnalysisApps','PenTest','Burp','AndroidBurp','WebAI','Kali','HexStrike','OpenCode','Emulator','MobSF','Dynamic','Combined','FridaServer','RootBypass','RootBypassDirect','StopRootBypass','AppDiagnostics','PlayDownload','RefreshApps','RefreshDevices','AcquireApp','ResetPlay')][string]$Tool='Burp',
+    [ValidateSet('Gui','Plan','Preflight','Install','Verify','Launch','Stop','Guide','Infrastructure')][string]$Action='Gui',
+    [ValidateSet('InfraInstall','InfraPreflight','InfraRun','InfraRetry','InfraImport','MobileAnalysis','MobSfAnalysis','MobileApi','MobileAI','SystemAnalysis','WebProxyTest','CheckMcp','RefreshAnalysisApps','PenTest','Burp','AndroidBurp','WebAI','Kali','HexStrike','OpenCode','Emulator','MobSF','Dynamic','Combined','FridaServer','RootBypass','RootBypassDirect','StopRootBypass','AppDiagnostics','PlayDownload','RefreshApps','RefreshDevices','AcquireApp','ResetPlay')][string]$Tool='Burp',
     [string]$Package='',
     [string]$Target='',
     [string]$SourceSerial='',
@@ -20,7 +20,7 @@ $exitCode=0
 $lock=$null
 try {
     $ctx=Initialize-Context -Root $PSScriptRoot -ConfigPath $ConfigPath -ExpectedUserSid $ExpectedUserSid
-    if ($Action -in @('Install','Launch','Stop')) {
+    if ($Action -in @('Install','Launch','Stop','Infrastructure')) {
         # OS releases this file lock even after interruption/crash; no stale PID bypass.
         $lock=[IO.File]::Open((Join-Path $ctx.Runtime 'operation.lock'),[IO.FileMode]::OpenOrCreate,[IO.FileAccess]::ReadWrite,[IO.FileShare]::None)
     }
@@ -36,6 +36,7 @@ try {
         }
         'Stop' { Stop-ManagedRuntime }
         'Guide' { Show-Guide }
+        'Infrastructure' { Invoke-InfrastructureAction -Tool $Tool -Target $Target }
     }
 } catch {
     $exitCode=1

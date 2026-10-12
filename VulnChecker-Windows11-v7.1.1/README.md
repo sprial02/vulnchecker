@@ -1,5 +1,10 @@
 # VulnChecker
 
+### ⑦ 인프라 점검
+
+`Start.cmd` → **⑦ 인프라 점검**에서 Linux/Windows 서버를 등록하고 Ansible 설치, SSH/WinRM/PSRP 접속 확인, 전체·선택 서버 점검, 결과 조회 및 실패 서버 선택 재실행을 진행합니다. 접속 암호는 기존 AI 설정처럼 현재 Windows 계정으로 암호화해 저장합니다. [인프라 UI 가이드](docs/INFRASTRUCTURE.ko.html)를 참고하세요.
+
+
 ### IBM ICA / DeepSeek AI 설정
 
 처음 실행하면 **⑥ AI 설정** 탭이 열립니다. **IBM ICA API KEY**와 선택 사항인 **DEEPSEEK API KEY**를 입력하고 **API 키 / 모델 저장**을 누른 뒤 펜테스트 실행 버튼을 사용하세요. 설치 전에도 키를 저장할 수 있습니다.
@@ -10,7 +15,7 @@ DeepSeek는 예비 제공자로 등록됩니다. IBM ICA 토큰 소진 시 열�
 
 키 입력란은 마스킹되며 Windows 저장본은 현재 계정의 DPAPI로 암호화됩니다. 빈 입력란은 저장한 키를 유지하고, 삭제 체크박스를 선택하면 다음 실행에 해당 키가 제거됩니다. 실행할 때 Kali 사용자 전용 폴더에 읽기 제한된 키 파일(폴더 700 / 파일 600)을 만들고 OpenCode에는 파일 참조만 저장합니다. 실행기는 키 파일을 읽어 IBM_ICA_API_KEY / DEEPSEEK_API_KEY 환경변수를 OpenCode 프로세스에 전달하고, 설정된 제공자와 시작 모델을 명시합니다. 수동 export는 필요 없습니다. 기존 MCP와 다른 제공자 설정은 유지합니다. 키와 실행 자료는 배포 ZIP에 포함되지 않습니다. 실행기 업데이트 후에는 OpenCode와 전용 명령 창을 모두 닫고 VulnChecker 실행 버튼으로 다시 여세요. 예전 명령 창의 oc 함수는 업데이트 전 실행 방식을 유지합니다. 실제 API 인증·스트리밍·도구 호출은 유효한 키를 넣고 첫 점검 요청에서 확인해야 합니다.
 
-고객사 Windows 11 x64 PC에서 웹·Android 진단 환경을 준비하는 PowerShell 5.1 기반 데스크톱 설치/실행 관리자입니다. 별도 Python/Node 설치 없이 `Start.cmd`로 엽니다. 현재 버전 **7.1.1** (2026-10-07), 화면 제목과 `version.json`에서 확인합니다.
+고객사 Windows 11 x64 PC에서 웹·Android 진단 환경을 준비하는 PowerShell 5.1 기반 데스크톱 설치/실행 관리자입니다. 별도 Python/Node 설치 없이 `Start.cmd`로 엽니다. 현재 버전 **7.2.0** (2026-10-12), 화면 제목과 `version.json`에서 확인합니다.
 
 **현재 기본값: Burp Community, Android 11(API 30) Google APIs x86_64 (Google Play 없음), WSL2 Kali, HexStrike, OpenCode, Docker Desktop, MobSF.**
 

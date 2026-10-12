@@ -1,0 +1,42 @@
+all:
+  children:
+    linux:
+      vars:
+        ansible_connection: ssh
+        ansible_user: audit
+        ansible_become: true
+        ansible_become_method: sudo
+        ansible_python_interpreter: /usr/bin/python3
+      hosts:
+        linux-debian-01:
+          ansible_host: 192.0.2.10
+          ansible_ssh_private_key_file: ~/.ssh/infra_audit
+          kisa_platform: Debian
+        linux-rhel-01:
+          ansible_host: 192.0.2.11
+          ansible_ssh_private_key_file: ~/.ssh/infra_audit
+          kisa_platform: RedHat
+    windows:
+      vars:
+        ansible_user: 'CORP\audit'
+        ansible_password: '{{ vault_windows_password }}'
+        ansible_port: 5986
+      children:
+        windows_winrm:
+          vars:
+            ansible_connection: winrm
+            ansible_winrm_transport: ntlm
+            ansible_winrm_scheme: https
+            ansible_winrm_server_cert_validation: validate
+          hosts:
+            windows-winrm-01:
+              ansible_host: win01.corp.example
+        windows_psrp:
+          vars:
+            ansible_connection: psrp
+            ansible_psrp_auth: ntlm
+            ansible_psrp_protocol: https
+            ansible_psrp_cert_validation: validate
+          hosts:
+            windows-psrp-01:
+              ansible_host: win02.corp.example
