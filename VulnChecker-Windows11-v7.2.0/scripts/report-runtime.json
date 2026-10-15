@@ -1,0 +1,7 @@
+{
+  "uvVersion": "0.13.0",
+  "uvWheel": "https://files.pythonhosted.org/packages/b2/00/73abae6cafcdb868d42b2c71bf12c9c2eb06a8d229a09569760c41b7948d/uv-0.13.0-py3-none-win_amd64.whl",
+  "uvSha256": "0367b4e0ae4dcef32da4aa2ad2f3853b6ad81d50c187abe50d343d892b8fea21",
+  "python": "3.11",
+  "requirements": ["python-docx==1.2.0", "Pillow==12.3.0"]
+}

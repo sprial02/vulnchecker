@@ -1,0 +1,33 @@
+---
+- name: Verify SSH and privilege escalation
+  hosts: linux
+  gather_facts: false
+  strategy: free
+  serial: '{{ infra_batch_size | default(100) | int }}'
+  tasks:
+    - name: Check target runtime prerequisites without file transfer
+      ansible.builtin.import_tasks: target-runtime.yml
+    - name: Verify Python and SSH
+      ansible.builtin.ping:
+    - name: Verify effective execution account
+      ansible.builtin.command: id -un
+      register: identity
+      changed_when: false
+      failed_when: identity.stdout != (ansible_become_user | default('root'))
+- name: Verify Windows remoting and administrator context
+  hosts: windows
+  gather_facts: false
+  strategy: free
+  serial: '{{ infra_batch_size | default(100) | int }}'
+  tasks:
+    - name: Verify WinRM or PSRP
+      ansible.windows.win_ping:
+    - name: Verify administrator token
+      ansible.windows.win_powershell:
+        script: |
+          $identity = [Security.Principal.WindowsIdentity]::GetCurrent()
+          $principal = New-Object Security.Principal.WindowsPrincipal($identity)
+          if (-not $principal.IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)) {
+            throw 'An administrator token is required for complete KISA checks.'
+          }
+          $Ansible.Changed = $false

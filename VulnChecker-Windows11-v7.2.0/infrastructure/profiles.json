@@ -1,0 +1,17 @@
+[
+ {"Id":"unix-debian","Label":"Unix OS · Debian","Folder":"01.Unix서버/Debian","Prefix":"U","Count":67,"Family":"posix","Category":"Unix OS"},
+ {"Id":"unix-redhat","Label":"Unix OS · RedHat","Folder":"01.Unix서버/RedHat","Prefix":"U","Count":67,"Family":"posix","Category":"Unix OS"},
+ {"Id":"unix-aix","Label":"Unix OS · AIX","Folder":"01.Unix서버/AIX","Prefix":"U","Count":67,"Family":"posix","Category":"Unix OS"},
+ {"Id":"unix-hpux","Label":"Unix OS · HP-UX","Folder":"01.Unix서버/HP-UX","Prefix":"U","Count":67,"Family":"posix","Category":"Unix OS"},
+ {"Id":"unix-solaris","Label":"Unix OS · Solaris","Folder":"01.Unix서버/Solaris","Prefix":"U","Count":67,"Family":"posix","Category":"Unix OS"},
+ {"Id":"windows","Label":"Windows 서버","Folder":"02.Windows서버","Prefix":"W","Count":64,"Family":"windows","Category":"Windows OS"},
+ {"Id":"pc","Label":"Windows PC","Folder":"07.PC","Prefix":"P","Count":18,"Family":"windows","Category":"PC"},
+ {"Id":"apache","Label":"웹서버 · Apache","Folder":"03.웹서버/Apache","Prefix":"WEB","Count":26,"Family":"posix","Category":"Web"},
+ {"Id":"nginx","Label":"웹서버 · Nginx","Folder":"03.웹서버/Nginx","Prefix":"WEB","Count":26,"Family":"posix","Category":"Web"},
+ {"Id":"tomcat","Label":"WAS · Tomcat","Folder":"03.웹서버/Tomcat","Prefix":"WEB","Count":26,"Family":"posix","Category":"Web"},
+ {"Id":"iis","Label":"웹서버 · IIS","Folder":"03.웹서버/IIS","Prefix":"WEB","Count":26,"Family":"windows","Category":"Web"},
+ {"Id":"mysql","Label":"DBMS · MySQL","Folder":"08.DBMS/mysql","Prefix":"D","Count":26,"Family":"posix","Category":"DBMS","DbPort":3306},
+ {"Id":"postgresql","Label":"DBMS · PostgreSQL","Folder":"08.DBMS/postgresql","Prefix":"D","Count":26,"Family":"posix","Category":"DBMS","DbPort":5432},
+ {"Id":"oracle","Label":"DBMS · Oracle","Folder":"08.DBMS/Oracle","Prefix":"D","Count":26,"Family":"posix","Category":"DBMS","DbPort":1521},
+ {"Id":"mssql","Label":"DBMS · MSSQL (Bash)","Folder":"08.DBMS/MSSQL","Prefix":"D","Count":26,"Family":"posix","Category":"DBMS","DbPort":1433}
+]

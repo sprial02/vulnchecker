@@ -1,0 +1,21 @@
+{
+  "python": "3.11",
+  "uvVersion": "0.13.0",
+  "uvWheel": "https://files.pythonhosted.org/packages/c3/75/1901383808ba0d421f32060ba0e9884169b685a722e1af5d87fdd4225ba6/uv-0.13.0-py3-none-manylinux_2_17_x86_64.manylinux2014_x86_64.whl",
+  "uvSha256": "52c7da0fd9056d9551124777ec77de53f0df7017daf8f98a19e947b7837416ed",
+  "onlyBinary": ["pyvex", "angr", "cryptography", "psutil", "bcrypt", "cffi", "numpy"],
+  "coreRequirements": [
+    "flask>=2.3.0,<4.0.0", "requests>=2.31.0,<3.0.0", "psutil==5.9.8",
+    "fastmcp>=0.2.0,<1.0.0", "beautifulsoup4>=4.12.0,<5.0.0",
+    "selenium>=4.15.0,<5.0.0", "webdriver-manager>=4.0.0,<5.0.0",
+    "aiohttp>=3.8.0,<4.0.0", "mitmproxy==10.4.2"
+  ],
+  "coreImports": [
+    "flask", "requests", "psutil", "mcp.server.fastmcp", "bs4", "selenium",
+    "webdriver_manager", "aiohttp", "mitmproxy.http", "mitmproxy.tools.dump", "mitmproxy.options"
+  ],
+  "binaryRequirements": ["angr==9.2.213", "pwntools==4.15.0", "bcrypt==4.0.1", "bitstring==4.3.1", "pycparser==3.0"],
+  "binaryImports": ["angr", "pwn"],
+  "mobileRequirements": ["frida-tools", "objection"],
+  "mobileImports": ["frida", "objection"]
+}

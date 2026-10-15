@@ -1,0 +1,30 @@
+﻿{
+  "profile": "full",
+  "burpEdition": "Community",
+  "kaliDistro": "kali-linux",
+  "kaliImportTar": "",
+  "mobSfImage": "opensecurity/mobile-security-framework-mobsf:latest",
+  "mobSfImageTar": "",
+  "mobSfPort": 8000,
+  "hexstrikePort": 8888,
+  "hexstrikeCommit": "d689933ff579d839c676c82b231f8e98326c5f04",
+  "opencodeVersion": "latest",
+  "androidApi": 30,
+  "androidImage": "google_apis",
+  "avdName": "VulnChecker_API30",
+  "extraKaliPackages": [],
+  "wingetVersions": {},
+  "reserveFreeGB": 5,
+  "dockerTimeoutSeconds": 240,
+  "existing": {
+    "sdkRoot": "",
+    "avdRoot": "",
+    "burpPath": "",
+    "kaliUser": "",
+    "hexstrikePath": "",
+    "hexstrikePython": "",
+    "opencodePath": ""
+  },
+  "playApi": 30,
+  "playAvdName": "VulnChecker_Play_API30"
+}

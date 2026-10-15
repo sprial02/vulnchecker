@@ -1,0 +1,4 @@
+﻿Alias,Host,User,Connection,Platform,Port,Protocol,KeyFile,Timeout,Enabled,TrustNewHostKey,Password,BecomePassword
+,192.0.2.10,audit,ssh,Auto,22,https,,90,true,true,REPLACE_WITH_LOGIN_PASSWORD,
+192.0.2.11,192.0.2.11,audit,ssh,RedHat,22,https,/home/audit/.ssh/id_ed25519,90,true,true,,
+,192.0.2.20,DOMAIN\audit,psrp,Windows,5986,https,,90,true,false,REPLACE_WITH_LOGIN_PASSWORD,

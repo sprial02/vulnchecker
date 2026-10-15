@@ -1,0 +1,41 @@
+---
+- name: Discover Unix OS and service candidates without running checks
+  hosts: linux
+  gather_facts: false
+  strategy: free
+  serial: '{{ infra_batch_size | default(100) | int }}'
+  tasks:
+    - name: Check target runtime prerequisites without file transfer
+      ansible.builtin.import_tasks: target-runtime.yml
+    - name: Read OS and standard service locations
+      ansible.builtin.script: ../scripts/discover-target.py
+      args:
+        executable: '{{ ansible_python_interpreter | default("/usr/bin/python3") }}'
+      register: discovery
+      changed_when: false
+    - name: Store discovery on controller
+      ansible.builtin.copy:
+        content: '{{ discovery.stdout | trim }}'
+        dest: '{{ discovery_dir }}/{{ inventory_hostname }}.json'
+        mode: '0600'
+      delegate_to: localhost
+      become: false
+
+- name: Discover Windows OS and service candidates without running checks
+  hosts: windows
+  gather_facts: false
+  strategy: free
+  serial: '{{ infra_batch_size | default(100) | int }}'
+  tasks:
+    - name: Read Windows OS and service registrations
+      ansible.windows.win_powershell:
+        script: '{{ lookup("file", "../scripts/discover-windows.ps1") }}'
+      register: discovery
+      changed_when: false
+    - name: Store discovery on controller
+      ansible.builtin.copy:
+        content: '{{ discovery.output | first }}'
+        dest: '{{ discovery_dir }}/{{ inventory_hostname }}.json'
+        mode: '0600'
+      delegate_to: localhost
+      become: false

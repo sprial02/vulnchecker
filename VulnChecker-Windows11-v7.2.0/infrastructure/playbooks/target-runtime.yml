@@ -1,0 +1,20 @@
+---
+- name: Probe SSH stdout and Python before module execution or file transfer
+  ansible.builtin.raw: '{{ lookup("file", "../scripts/probe-target-runtime.sh") | replace("__TRIGUARD_CONFIGURED_PYTHON__", (ansible_python_interpreter | default("/usr/bin/python3") | quote)) }}'
+  become: false
+  changed_when: false
+  vars:
+    ansible_ssh_use_tty: false
+  register: triguard_runtime_probe
+- name: Parse SSH runtime prerequisites on controller
+  ansible.builtin.set_fact:
+    triguard_target_runtime: '{{ triguard_runtime_probe.stdout | triguard_target_runtime }}'
+- name: Require compatible Python and clean noninteractive stdout
+  ansible.builtin.assert:
+    that:
+      - triguard_target_runtime.ready
+    fail_msg: '{{ triguard_target_runtime.errors | join(" / ") }}'
+    quiet: true
+- name: Use verified existing target Python
+  ansible.builtin.set_fact:
+    ansible_python_interpreter: '{{ triguard_target_runtime.python }}'
