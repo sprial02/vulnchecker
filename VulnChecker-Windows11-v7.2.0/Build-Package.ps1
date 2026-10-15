@@ -3,6 +3,10 @@
 param()
 $ErrorActionPreference='Stop'
 $root=$PSScriptRoot
+$csvTemplate=Join-Path $root 'infrastructure\inventory\servers.template.csv'
+if (@(Import-Csv -LiteralPath $csvTemplate -Encoding UTF8).Count -gt 0) {
+    throw 'CSV template contains server rows. Keep the template empty and store customer CSV files outside the source tree.'
+}
 $outDir=Join-Path $root 'dist'
 $stage=Join-Path $root ('runtime\package-'+[guid]::NewGuid().ToString('N'))
 New-Item -ItemType Directory -Path $stage,$outDir -Force | Out-Null

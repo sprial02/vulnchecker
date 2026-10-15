@@ -1,0 +1,46 @@
+# Local state, customer evidence and downloaded applications (all versions).
+**/runtime/
+**/apk-library/
+**/infra-runs/
+**/raw-data/
+**/runs/
+**/avds/
+**/dist/
+**/__pycache__/
+*.py[cod]
+**/.venv/
+**/vendor/
+**/collections/
+
+# Credentials and actual inventories. Keep only shipped examples/settings.
+.env
+.env.*
+!.env.example
+**/.vault-password
+**/known_hosts
+**/id_rsa
+**/id_ed25519
+**/inventory/gui/
+**/inventory/hosts.yml
+**/inventory/hosts.yaml
+**/inventory/**/vault.yml
+**/inventory/**/vault.yaml
+
+# Customer spreadsheets, reports and manually created archives in repo root.
+/servers*.csv
+/F5DiagnosticsReport.html
+/*.zip
+/*.sha256.txt
+*.csv
+!**/infrastructure/inventory/servers.example.csv
+!**/infrastructure/inventory/servers.template.csv
+*.zip
+!**/offline-kit/TriGuard-Infrastructure-Offline.zip
+!**/offline-kit/Corresponding-Source.zip
+*.apk
+*.tar.gz
+
+# Put application releases in GitHub Releases after package validation.
+*.log
+*.bak
+*.tmp
