@@ -94,13 +94,20 @@
         for ($index=0;$index -lt $serverList.Items.Count;$index++) {if ($serverList.Items[$index].Server.Alias -eq $s.Alias) {$serverList.SetSelected($index,$true);break}}
         $Status.Text='서버 설정 저장 완료 · 암호는 현재 Windows 계정으로 암호화됩니다.'
     }.GetNewClosure()
-    $runs=New-Object Windows.Forms.ComboBox; $runs.Name='InfrastructureRunHistory'; $runs.DropDownStyle='DropDownList'; $runs.DisplayMember='Label'; $runs.SetBounds(12,8,716,27); $resultsPage.Controls.Add($runs)
-    $grid=New-Object Windows.Forms.DataGridView; $grid.Name='InfrastructureResults'; $grid.SetBounds(12,43,930,140); $grid.AllowUserToAddRows=$false; $grid.AllowUserToDeleteRows=$false; $grid.RowHeadersVisible=$false; $grid.AutoSizeColumnsMode='Fill'; $grid.SelectionMode='FullRowSelect'
+    $runs=New-Object Windows.Forms.ComboBox; $runs.Name='InfrastructureRunHistory'; $runs.DropDownStyle='DropDownList'; $runs.DisplayMember='Label'; $runs.SetBounds(12,8,366,27); $resultsPage.Controls.Add($runs)
+    $textPath=New-Object Windows.Forms.TextBox; $textPath.Name='InfraTextPath'; $textPath.ReadOnly=$true; $textPath.SetBounds(12,42,930,24); $resultsPage.Controls.Add($textPath)
+    $updateTextPath={
+        $path=$null; if ($runs.SelectedItem) {$path=Get-InfrastructureTextPath $runs.SelectedItem.Id}
+        if ($path -and (Test-Path -LiteralPath $path)) {$textPath.Text=$path}
+        else {$textPath.Text='저장 폴더: '+(Get-InfrastructureTextDirectory)+' · 기존 결과는 「기존 결과 TXT 모으기」로 생성 (정상 실행 항목만 수록)'}
+    }.GetNewClosure()
+    $grid=New-Object Windows.Forms.DataGridView; $grid.Name='InfrastructureResults'; $grid.SetBounds(12,70,930,113); $grid.AllowUserToAddRows=$false; $grid.AllowUserToDeleteRows=$false; $grid.RowHeadersVisible=$false; $grid.AutoSizeColumnsMode='Fill'; $grid.SelectionMode='FullRowSelect'
     $select=New-Object Windows.Forms.DataGridViewCheckBoxColumn; $select.Name='Retry'; $select.HeaderText='선택'; $select.FillWeight=35; [void]$grid.Columns.Add($select)
     foreach ($pair in @(@('Server','서버',105),@('State','실행 상태',85),@('Good','양호',45),@('Vulnerable','취약',45),@('Manual','수동',45),@('NA','해당 없음',60),@('Errors','실패 사유',280))) {$c=New-Object Windows.Forms.DataGridViewTextBoxColumn; $c.Name=$pair[0];$c.HeaderText=$pair[1];$c.FillWeight=$pair[2];$c.ReadOnly=$true;[void]$grid.Columns.Add($c)}
     $resultsPage.Controls.Add($grid)
     $showRun={
         $grid.Rows.Clear()
+        & $updateTextPath
         if (-not $runs.SelectedItem) {return}
         foreach ($prop in $runs.SelectedItem.Summary.servers.PSObject.Properties) {
             $r=$prop.Value; $counts=@{}; foreach ($p in $r.counts.PSObject.Properties) {$counts[$p.Name]=[int]$p.Value}
@@ -167,7 +174,17 @@
         @{Name='InfraRunSelected';Text='선택 서버 점검';X=571;Y=193;W=140;Page=$serversPage;Click={if (-not $serverList.SelectedItems.Count) {throw '점검할 서버를 선택하세요.'}; & $begin 'InfraRun' @{Hosts=@($serverList.SelectedItems | ForEach-Object {$_.Server.Alias});RunId=''}}.GetNewClosure()},
         @{Name='InfraRunAll';Text='전체 서버 점검';X=719;Y=193;W=125;Page=$serversPage;Click={& $begin 'InfraRun' @{Hosts=@();RunId=''}}.GetNewClosure()},
         @{Name='InfraGuide';Text='가이드';X=852;Y=193;W=90;Page=$serversPage;Click={Start-Process -FilePath (Join-Path $infraRoot 'docs\INFRASTRUCTURE.ko.html') | Out-Null}.GetNewClosure()},
-        @{Name='InfraOpenResults';Text='결과 폴더 열기';X=740;Y=8;W=202;Page=$resultsPage;Click={if (-not $runs.SelectedItem) {throw '점검 이력이 없습니다.'}; Start-Process explorer.exe -ArgumentList ('"'+$runs.SelectedItem.Folder+'"') | Out-Null}.GetNewClosure()},
+        @{Name='InfraOpenText';Text='점검 결과 TXT 열기';X=386;Y=8;W=170;Page=$resultsPage;Click={
+            if (-not $runs.SelectedItem) {throw '점검 이력을 선택하세요.'}
+            $path=Get-InfrastructureTextPath $runs.SelectedItem.Id
+            if (-not $path -or -not (Test-Path -LiteralPath $path)) {throw '이 회차의 TXT가 없습니다. 기존 결과 TXT 모으기를 누르세요. 접속 확인·스크립트 결과 없는 회차는 생성하지 않습니다.'}
+            Start-Process -FilePath notepad.exe -ArgumentList ('"'+$path+'"') | Out-Null
+        }.GetNewClosure()},
+        @{Name='InfraOpenResults';Text='점검결과 폴더 열기';X=564;Y=8;W=174;Page=$resultsPage;Click={
+            $path=Get-InfrastructureTextDirectory;New-Item -ItemType Directory -Path $path -Force | Out-Null
+            Start-Process explorer.exe -ArgumentList ('"'+$path+'"') | Out-Null
+        }.GetNewClosure()},
+        @{Name='InfraTextExport';Text='기존 결과 TXT 모으기';X=746;Y=8;W=196;Page=$resultsPage;Click={& $begin 'InfraTextExport' @{}}.GetNewClosure()},
         @{Name='InfraRetryAll';Text='실패 서버 전체 재실행';X=12;Y=192;W=218;Page=$resultsPage;Click={if (-not $runs.SelectedItem -or -not @($runs.SelectedItem.Summary.failed_hosts).Count) {throw '이 이력에는 실행 실패 서버가 없습니다.'}; & $begin 'InfraRetry' @{Hosts=@();RunId=$runs.SelectedItem.Id}}.GetNewClosure()},
         @{Name='InfraRetrySelected';Text='선택 실패 서버 재실행';X=242;Y=192;W=218;Page=$resultsPage;Click={$grid.EndEdit();$hosts=@($grid.Rows | Where-Object {$_.Cells['Retry'].Value -and $_.Tag.Failed} | ForEach-Object {$_.Tag.Alias});if (-not $hosts.Count) {throw '실행 실패 서버의 선택 칸을 체크하세요.'}; & $begin 'InfraRetry' @{Hosts=$hosts;RunId=$runs.SelectedItem.Id}}.GetNewClosure()},
         @{Name='InfraRefreshResults';Text='결과 새로고침';X=472;Y=192;W=180;Page=$resultsPage;Click={$state.RunsStamp='';& $refreshRuns}.GetNewClosure()},
@@ -195,6 +212,7 @@
         if (Test-Path -LiteralPath $path) {$stamp=(Get-Item -LiteralPath $path).LastWriteTimeUtc.Ticks.ToString()}
         if ($stamp -ne $state.SettingsStamp) {$state.SettingsStamp=$stamp;& $refreshServers}
         & $refreshRuns
+        & $updateTextPath
         if(-not $busy -and $state.DiscoveryPending){
             $state.DiscoveryPending=$false;$discoveryPath=Join-Path $infraRuntime 'infra-runs\infra-discovery.json'
             if(Test-Path -LiteralPath $discoveryPath){

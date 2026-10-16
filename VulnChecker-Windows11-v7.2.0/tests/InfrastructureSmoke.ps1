@@ -58,6 +58,11 @@ try {
     $bitmap=New-Object Drawing.Bitmap($form.Width,$form.Height)
     try {$form.DrawToBitmap($bitmap,(New-Object Drawing.Rectangle(0,0,$form.Width,$form.Height)));$bitmap.Save((Join-Path $ctx.Runtime 'infrastructure-bulk.png'))} finally {$bitmap.Dispose()}
     $sub.SelectedIndex=1
+    foreach ($name in @('InfraOpenText','InfraOpenResults','InfraTextExport','InfraTextPath')) {
+        if (-not $results.Controls[$name]) {throw ('Missing TXT result control: '+$name)}
+    }
+    $textResult=Get-InfrastructureTextPath $id
+    if ($textResult -ne (Join-Path $testRoot '점검결과\인프라점검결과_20261012_090000_12345678.txt')) {throw 'TXT result location or Korea timestamp mismatch'}
     $grid=$results.Controls['InfrastructureResults']
     $failedRow=@($grid.Rows | Where-Object {$_.Tag.Alias -eq 'fixture-linux'})[0]
     if ($grid.Rows.Count -ne 2 -or $failedRow.Cells['Errors'].Value -notmatch 'U-64') {throw 'Results or failure reason missing'}

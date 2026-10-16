@@ -145,10 +145,53 @@ function Get-InfrastructureRuns {
     }
 }
 
+function Get-InfrastructureTextDirectory {
+    return (Join-Path $script:Root '점검결과')
+}
+
+function Get-InfrastructureTextPath {
+    param([string]$RunId)
+    if ($RunId -notmatch '^\d{8}T\d{6}Z-[a-f0-9]{8}$') {return $null}
+    $moment=[DateTime]::ParseExact($RunId.Substring(0,16),"yyyyMMdd'T'HHmmss'Z'",[Globalization.CultureInfo]::InvariantCulture,[Globalization.DateTimeStyles]::None).AddHours(9)
+    return (Join-Path (Get-InfrastructureTextDirectory) ('인프라점검결과_'+$moment.ToString('yyyyMMdd_HHmmss')+'_'+$RunId.Substring(17)+'.txt'))
+}
+
+function Export-InfrastructureTextResults {
+    param([string]$RunId='')
+    $root=Join-Path $script:Runtime 'infra-runs'
+    $output=Get-InfrastructureTextDirectory
+    $manifest=Join-Path $script:Runtime 'infra-text-export.json'
+    $exporter=Join-Path $script:Root 'scripts\infra-text.py'
+    $arguments=@($exporter,'--root',$root,'--output',$output,'--manifest',$manifest)
+    if ($RunId) {$arguments+=@('--run-id',$RunId)}
+    $python=Get-ReportPython
+    if ($python) {Invoke-ReportPython $python $arguments | Out-Null}
+    else {
+        # Existing Kali Python is sufficient: TXT export does not install a DOCX environment.
+        $linuxArguments=@()
+        foreach ($argument in $arguments) {
+            if ([IO.Path]::IsPathRooted($argument)) {$linuxArguments+=(Invoke-InfrastructureKali -Arguments @('wslpath','-a',$argument) -Quiet).Trim()}
+            else {$linuxArguments+=$argument}
+        }
+        Invoke-InfrastructureKali -Arguments (@('python3')+$linuxArguments) | Out-Null
+    }
+    $results=Read-SharedText $manifest | ConvertFrom-Json
+    $exported=@($results | Where-Object {$_.status -eq 'exported'})
+    Write-Log ('점검 결과 TXT '+$exported.Count+'개 저장: '+$output)
+    return $exported
+}
+
 function Invoke-InfrastructureAction {
     param([string]$Tool,[string]$Target='')
     $name='인프라 점검'
     try {
+        if ($Tool -eq 'InfraTextExport') {
+            $results=@(Export-InfrastructureTextResults)
+            $detail='점검 결과 TXT '+$results.Count+'개 · '+(Get-InfrastructureTextDirectory)
+            if (-not $results.Count) {$detail='수록할 점검 항목이 없습니다. 접속 확인만 수행했거나 스크립트 결과가 없는 회차는 TXT를 만들지 않습니다.'}
+            Set-ConnectionResult $name '완료' $detail
+            return
+        }
         if ($Tool -eq 'InfraOfflineImport') {Set-ConnectionResult $name '진행 중' '고객 실행 결과 ZIP의 형식과 파일 무결성을 확인합니다.'}
         else {Set-ConnectionResult $name '진행 중' 'Kali의 Ansible 환경과 서버 연결을 준비합니다.'}
         if ($Tool -eq 'InfraOfflineImport') {
@@ -157,8 +200,11 @@ function Invoke-InfrastructureAction {
             $python=Ensure-ReportRuntime
             $arguments=@((Join-Path $script:Root 'scripts\import-offline.py'),'--root',(Join-Path $script:Runtime 'infra-runs'),'--out',(Join-Path $script:Runtime 'offline-import.json'))
             foreach ($file in @($request.Files)) {$arguments+=@('--file',[string]$file)}
-            try {Invoke-ReportPython $python $arguments | Out-Null} finally {Sync-InfrastructureReportDatabase}
-            Set-ConnectionResult $name '완료' '고객 실행 결과 가져오기 완료. ⑦ 점검 이력과 ⑧ 레포트 / RAW 보관함에서 확인하세요.'
+            try {Invoke-ReportPython $python $arguments | Out-Null} finally {
+                Export-InfrastructureTextResults | Out-Null
+                Sync-InfrastructureReportDatabase
+            }
+            Set-ConnectionResult $name '완료' ('고객 실행 결과 가져오기 완료 · 점검 결과 TXT: '+(Get-InfrastructureTextDirectory))
             return
         }
         if (-not (Assert-InfrastructureWsl -Install:($Tool -eq 'InfraInstall'))) {
@@ -247,9 +293,13 @@ function Invoke-InfrastructureAction {
             throw '점검 요약이 생성되지 않았습니다. 아래 로그의 접속/설정 오류를 확인하세요.'
         }
         $summary=$new[0].Summary
+        $textFiles=@()
+        if (-not $summary.preflight) {$textFiles=@(Export-InfrastructureTextResults -RunId $new[0].Id)}
         Sync-InfrastructureReportDatabase
         $physical=@($summary.hosts).Count;if($summary.PSObject.Properties['physical_servers']){$physical=[int]$summary.physical_servers}
-        $detail=('서버 '+$physical+'대 · OS/서비스 대상 '+@($summary.hosts).Count+'개 · 실행 실패 '+@($summary.failed_hosts).Count+'개 · 취약 발견 '+@($summary.vulnerable_hosts).Count+'개 · ⑦ 점검 결과에서 증적 확인')
+        $detail=('서버 '+$physical+'대 · OS/서비스 대상 '+@($summary.hosts).Count+'개 · 실행 실패 '+@($summary.failed_hosts).Count+'개 · 취약 발견 '+@($summary.vulnerable_hosts).Count+'개')
+        if ($textFiles.Count) {$detail+=' · 점검 결과 TXT: '+(Get-InfrastructureTextPath $new[0].Id)}
+        elseif (-not $summary.preflight) {$detail+=' · 수록할 스크립트 결과가 없어 TXT를 만들지 않았습니다.'}
         if ($summary.ansible_rc -eq 0) {Set-ConnectionResult '인프라 서버 연결' '연결됨' ('대상 '+@($summary.hosts).Count+'대 · Ansible 접속 및 작업 응답 확인 완료')}
         if (@($summary.failed_hosts).Count -or $summary.ansible_rc -ne 0) {
             $reasons=@(foreach ($hostName in @($summary.failed_hosts)) {

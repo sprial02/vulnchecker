@@ -1,6 +1,7 @@
 ﻿function Get-LaunchDependencies {
     param([string]$Tool,[string]$Package='',[string]$CaptureRoute='Preview',[switch]$LaunchWithBypass)
     switch ($Tool) {
+        {$_ -in @('InfraTextExport','InfraOfflineImport')} {return @()}
         {$_ -like 'Report*'} {return @()}
         'Burp' {return @('Burp')}
         'Kali' {return @('Kali')}

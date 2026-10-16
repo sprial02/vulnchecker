@@ -2,6 +2,23 @@
 
 이 문서는 **v7.2.0**의 화면과 `VulnChecker.ps1`을 기준으로 작성했습니다. Windows 11 x64에서 프로그램 폴더의 `Start.cmd`를 실행하면 UI가 열립니다. 예제의 패키지명, 주소, 파일 경로는 실제 대상에 맞게 바꾸세요.
 
+## 점검 결과 파일 바로 찾기
+
+**인프라 점검 결과 TXT는 `Start.cmd`가 있는 프로그램 폴더 바로 아래 `점검결과` 폴더에 있습니다.** ⑦ 인프라 점검 → 점검 결과 / 재실행에서 회차 선택 → **점검 결과 TXT 열기**를 누르면 바로 볼 수 있습니다. 압축 해제는 필요하지 않습니다.
+
+현재 작업 폴더의 실제 저장 위치와 파일명 예시:
+
+```text
+D:\Code\vulnchecker\VulnChecker-Windows11-v7.2.0\점검결과\
+  인프라점검결과_20261015_190451_92f53a17.txt
+```
+
+파일명은 **한국시간의 점검 시작 날짜·시각 + 회차 ID 끝 8자리**입니다. 배포본에서는 해당 프로그램 폴더 아래에 저장합니다. 한 회차의 여러 서버·OS·Web/WAS·DB 결과는 TXT 하나에 서버/점검 대상/항목 순서로 합칩니다. 같은 회차를 다시 모으면 같은 파일을 갱신하며, 재실행으로 생긴 새 회차는 별도 파일을 만듭니다.
+
+원본 스크립트의 항목별 TXT를 우선 사용하고, TXT가 없으면 판정·점검 명령·명령 결과 등을 JSON에서 읽어 텍스트로 정리합니다. 정상 실행되어 유효한 판정이 있는 항목만 수록합니다. **취약 판정도 정상적인 점검 결과이므로 포함**하며, 접속 실패·실행 실패·시간 초과 로그와 운영용 파일은 넣지 않습니다. 일부 항목만 성공한 회차도 확보된 항목은 담으므로 TXT만으로 전체 점검 완료를 판단하지 말고 화면의 실행 상태를 함께 확인하세요. 접속 확인만 한 회차나 수록할 항목이 없는 회차는 TXT를 만들지 않습니다.
+
+이전 점검 결과는 **기존 결과 TXT 모으기**를 한 번 누르면 현재 PC/계정의 저장 이력에서 모읍니다. 이후 새 점검·재실행·고객 결과 가져오기 시 자동 생성합니다. **점검결과 폴더 열기**는 TXT만 모인 폴더를 열고, 바로 아래 경로 입력란에서 선택 회차의 절대 경로를 확인·복사할 수 있습니다.
+
 ## 1. 처음 사용할 때
 
 1. 프로그램 폴더 전체를 압축 해제하고 `Start.cmd`를 실행합니다.
@@ -138,7 +155,9 @@ APK는 `apk-library/<사용자 SID>/<추출 시각-ID>/`에 보관합니다. 분
 
 | 메뉴 | 설명 |
 | --- | --- |
-| 결과 폴더 열기 | 선택한 점검 회차의 원본 결과와 증적을 엽니다. |
+| 점검 결과 TXT 열기 | 선택 회차의 통합 스크립트 결과 TXT를 메모장으로 엽니다. |
+| 점검결과 폴더 열기 | 프로그램 폴더 아래 `점검결과` 폴더를 엽니다. |
+| 기존 결과 TXT 모으기 | 현재 PC/계정의 과거 점검 회차를 TXT로 생성·갱신합니다. 대상 서버에 다시 접속하지 않습니다. |
 | 실패 서버 전체 재실행 | 선택 회차에서 수행에 실패한 서버를 다시 실행합니다. |
 | 선택 실패 서버 재실행 | 실패 서버 행의 선택 칸을 체크한 후 실행합니다. |
 | 결과 새로고침 | 점검 이력과 결과 표시를 갱신합니다. |
@@ -326,6 +345,9 @@ powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\VulnChecker.ps1 -Actio
 ```powershell
 .\VulnChecker.ps1 -Action Infrastructure -Tool InfraInstall
 
+# 저장된 점검 결과를 회차별 TXT로 모으기 (재점검하지 않음)
+.\VulnChecker.ps1 -Action Infrastructure -Tool InfraTextExport
+
 $request = @{ Hosts = @('server-01'); RunId = '' } | ConvertTo-Json -Compress
 .\VulnChecker.ps1 -Action Infrastructure -Tool InfraPreflight -Target $request
 .\VulnChecker.ps1 -Action Infrastructure -Tool InfraRun -Target $request
@@ -389,10 +411,13 @@ API 키 저장, 서버 등록/CSV 가져오기, APK 보관함 선택은 UI를 �
 
 ## 5. 결과 위치와 자주 겪는 상황
 
+**스크립트 점검 결과만 보려면 `프로그램 폴더\점검결과\인프라점검결과_*.txt`를 여세요.** 현재 실제 경로는 `D:\Code\vulnchecker\VulnChecker-Windows11-v7.2.0\점검결과`입니다. 아래 `runtime`은 내부 관리·재실행·보고서용 저장 위치이며, TXT를 찾기 위해 들어갈 필요가 없습니다.
+
 `runtime/<PC명>-<SID>/`는 현재 PC와 Windows 사용자별 작업 폴더입니다.
 
 | 위치 / 상황 | 확인 방법 |
 | --- | --- |
+| `점검결과/인프라점검결과_날짜_시각_회차ID.txt` | 회차별 통합 스크립트 결과. ⑦의 점검 결과 TXT 열기에서 바로 조회 |
 | `runtime/<PC명>-<SID>/infra-runs/` | 인프라 회차별 결과와 원본 증적 |
 | `runtime/<PC명>-<SID>/reports/` | DOCX와 CSV·Excel 등 생성 부록 |
 | `runtime/<PC명>-<SID>/raw-data/`, `raw-exports/` | 버전별 원본 보관함과 선택 회차 ZIP |

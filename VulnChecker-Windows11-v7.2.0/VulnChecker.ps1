@@ -2,7 +2,7 @@
 [CmdletBinding()]
 param(
     [ValidateSet('Gui','Plan','Preflight','Install','Verify','Launch','Stop','Guide','Infrastructure','Report')][string]$Action='Gui',
-    [ValidateSet('ReportRawExport','ReportSync','ReportImport','ReportRefresh','ReportPreview','ReportExport','ReportTemplates','BinaryAnalysisTools','InfraOfflineImport','InfraInstall','InfraPreflight','InfraRun','InfraRetry','InfraImport','MobileAnalysis','MobSfAnalysis','MobileApi','MobileAI','SystemAnalysis','WebProxyTest','CheckMcp','RefreshAnalysisApps','PenTest','Burp','AndroidBurp','WebAI','Kali','HexStrike','OpenCode','Emulator','MobSF','Dynamic','Combined','FridaServer','RootBypass','RootBypassDirect','StopRootBypass','AppDiagnostics','PlayDownload','RefreshApps','RefreshDevices','AcquireApp','ResetPlay')][string]$Tool='Burp',
+    [ValidateSet('InfraTextExport','ReportRawExport','ReportSync','ReportImport','ReportRefresh','ReportPreview','ReportExport','ReportTemplates','BinaryAnalysisTools','InfraOfflineImport','InfraInstall','InfraPreflight','InfraRun','InfraRetry','InfraImport','MobileAnalysis','MobSfAnalysis','MobileApi','MobileAI','SystemAnalysis','WebProxyTest','CheckMcp','RefreshAnalysisApps','PenTest','Burp','AndroidBurp','WebAI','Kali','HexStrike','OpenCode','Emulator','MobSF','Dynamic','Combined','FridaServer','RootBypass','RootBypassDirect','StopRootBypass','AppDiagnostics','PlayDownload','RefreshApps','RefreshDevices','AcquireApp','ResetPlay')][string]$Tool='Burp',
     [string]$Package='',
     [string]$Target='',
     [string]$SourceSerial='',

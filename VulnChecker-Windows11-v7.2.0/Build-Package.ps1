@@ -13,6 +13,7 @@ New-Item -ItemType Directory -Path $stage,$outDir -Force | Out-Null
 # An explicit allowlist prevents customer data, credentials, runtime logs and caches
 # from being included in a transferable package.
 $files=@(
+    'scripts\infra-text.py','tests\InfraTextSmoke.py','docs\UI-GUIDE.ko.md',
     'tests\InfrastructureProfilesSmoke.ps1','lib\InfrastructureProfiles.ps1','infrastructure\profiles.json',
     'offline-kit\TriGuard-Infrastructure-Offline.zip','docs\CUSTOMER-OFFLINE.ko.md','infrastructure\licenses\AGPL-3.0.txt','scripts\import-offline.py','tests\OfflineSmoke.py','tests\OfflineGuiSmoke.ps1',
     'scripts\report-matrix.py','scripts\report-archive.py','tests\RawArchiveSmoke.py',

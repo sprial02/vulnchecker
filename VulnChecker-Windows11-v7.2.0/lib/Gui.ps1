@@ -9,8 +9,8 @@ function Get-WorkerCompletionMessage {
     if ($Action -eq 'Report' -and $ExitCode -eq 0) {return '보고서 작업 완료 · ⑧ 레포트에서 결과 선택 또는 보고서 폴더를 여세요.'}
     if ($Action -eq 'Infrastructure') {
         if ($ExitCode -eq 3010) {return '재부팅 필요 · Windows 재부팅 → Start.cmd → ⑦ Ansible 설치 / 확인으로 이어하기'}
-        if ($ExitCode -eq 0) {return '인프라 작업 완료 · ⑦ 인프라 점검의 점검 결과에서 확인하세요.'}
-        return '인프라 작업에 실패 항목이 있습니다 · ⑦ 점검 결과의 오류와 증적을 확인하세요.'
+        if ($ExitCode -eq 0) {return '인프라 작업 완료 · ⑦ 점검 결과 / 재실행 → 점검 결과 TXT 열기 · 저장 위치: 프로그램 폴더\점검결과'}
+        return '인프라 작업에 실패 항목이 있습니다 · ⑦에서 실행 상태 확인 · 수집된 스크립트 결과는 점검 결과 TXT 열기'
     }
     if ($ExitCode -eq 3010) {
         if ($Action -eq 'Launch') {return '재부팅 필요 · Windows 재부팅 → Start.cmd → 같은 실행 버튼으로 설치 / 실행 이어가기'}
